@@ -12,7 +12,7 @@ dependencies {
 }
 
 gluonClient {
-    // target = "ios" // uncomment to deploy on iOS
+//     target = "ios-sim" // uncomment to deploy on iOS
 
     bundlesList = ["hellofx.hello"]
     reflectionList = ["javafx.fxml.FXMLLoader", "hellofx.HelloController", 

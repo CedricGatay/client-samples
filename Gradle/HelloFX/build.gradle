@@ -1,7 +1,8 @@
 plugins {
     id 'application'
+    id 'scala'
     id 'org.openjfx.javafxplugin' version '0.0.8'
-    id 'com.gluonhq.client-gradle-plugin' version '0.0.12'
+    id 'com.gluonhq.client-gradle-plugin' version '0.0.13'
 }
 
 repositories {
@@ -9,10 +10,31 @@ repositories {
 }
 
 dependencies {
+    implementation 'com.github.vmencik:graal-akka-actor_2.12:0.5.0'
+    implementation 'com.github.vmencik:graal-akka-http_2.12:0.5.0'
+    implementation 'com.github.vmencik:graal-akka-stream_2.12:0.5.0'
+    implementation 'com.github.vmencik:graal-akka-slf4j_2.12:0.5.0'
+    compile 'com.typesafe.akka:akka-http_2.12:10.1.8'
+    compile 'com.typesafe.akka:akka-stream_2.12:2.5.25'
+    compile 'com.typesafe.akka:akka-actor_2.12:2.5.25'
+
+    compile "com.typesafe.scala-logging:scala-logging_2.12:3.9.2"
+    compile "org.slf4j:slf4j-jdk14:1.7.26" // java.util.logging works mostly out-of-the-box with SubstrateVM
+
+    compile 'org.scala-lang:scala-library:2.12.7'
 }
 
 gluonClient {
-    // target = "ios" // uncomment to deploy on iOS
+    //"--initialize-at-build-time",
+    //  "--initialize-at-run-time=" +
+    //    "akka.protobuf.DescriptorProtos," +
+    //    "com.typesafe.config.impl.ConfigImpl$EnvVariablesHolder," +
+    //    "com.typesafe.config.impl.ConfigImpl$SystemPropertiesHolder",
+    //  "--no-fallback",
+    //  "--allow-incomplete-classpath"
+    verbose = true
+    //reflectionList = []
+   target = "ios-sim" // uncomment to deploy on iOS
 }
 
 javafx {
