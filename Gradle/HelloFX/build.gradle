@@ -7,21 +7,12 @@ plugins {
 
 repositories {
     mavenCentral()
+    mavenLocal()
 }
 
 dependencies {
-    implementation 'com.github.vmencik:graal-akka-actor_2.12:0.5.0'
-    implementation 'com.github.vmencik:graal-akka-http_2.12:0.5.0'
-    implementation 'com.github.vmencik:graal-akka-stream_2.12:0.5.0'
-    implementation 'com.github.vmencik:graal-akka-slf4j_2.12:0.5.0'
-    compile 'com.typesafe.akka:akka-http_2.12:10.1.8'
-    compile 'com.typesafe.akka:akka-stream_2.12:2.5.25'
-    compile 'com.typesafe.akka:akka-actor_2.12:2.5.25'
-
-    compile "com.typesafe.scala-logging:scala-logging_2.12:3.9.2"
-    compile "org.slf4j:slf4j-jdk14:1.7.26" // java.util.logging works mostly out-of-the-box with SubstrateVM
-
-    compile 'org.scala-lang:scala-library:2.12.7'
+    compile 'org.scala-lang:scala-library:2.11.+'
+    implementation("fr.acinq.eclair:eclair-core_2.11:0.3.3-android")
 }
 
 gluonClient {
