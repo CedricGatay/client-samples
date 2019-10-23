@@ -2,7 +2,7 @@ plugins {
     id 'application'
     id 'scala'
     id 'org.openjfx.javafxplugin' version '0.0.8'
-    id 'com.gluonhq.client-gradle-plugin' version '0.0.13'
+    id 'com.gluonhq.client-gradle-plugin' version '0.0.13'//5-SNAPSHOT'
 }
 
 repositories {
@@ -12,6 +12,7 @@ repositories {
 
 dependencies {
     compile 'org.scala-lang:scala-library:2.11.+'
+    compileClasspath("com.oracle.substratevm:svm:19.2.0.1")
     implementation("fr.acinq.eclair:eclair-core_2.11:0.3.3-android")
 }
 
@@ -26,6 +27,9 @@ gluonClient {
     verbose = true
     //reflectionList = []
    target = "ios-sim" // uncomment to deploy on iOS
+   resourcesList = [".conf"]
+   reflectionList = [ "akka.actor.LightArrayRevolverScheduler", "akka.dispatch.AbstractNodeQueue.Node", "akka.actor.LightArrayRevolverScheduler.TaskQueue" ]
+   //graalPath = "/Users/cgatay/.sdkman/candidates/java/19.2.1-grl/"
 }
 
 javafx {

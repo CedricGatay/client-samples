@@ -15,7 +15,7 @@ gluonClient {
 //     target = "ios-sim" // uncomment to deploy on iOS
 
     bundlesList = ["hellofx.hello"]
-    reflectionList = ["javafx.fxml.FXMLLoader", "hellofx.HelloController", 
+    reflectionList = ["javafx.fxml.FXMLLoader", "hellofx.HelloController",
               "javafx.scene.control.Button", "javafx.scene.control.Label"]
 }
 
