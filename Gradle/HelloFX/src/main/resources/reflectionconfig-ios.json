@@ -141,6 +141,15 @@
     "allPublicConstructors": true
   },
   {
+    "name": "akka.event.Logging$StdOutLogger",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true
+  },{
+    "name": "akka.event.Logging$Error",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true
+  },
+  {
     "name": "akka.io.TcpOutgoingConnection",
     "allDeclaredConstructors": true,
     "allPublicConstructors": true
