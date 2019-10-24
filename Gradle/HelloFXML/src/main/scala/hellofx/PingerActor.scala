@@ -1,24 +1,27 @@
 package hellofx
 
-import akka.actor.Actor
+import akka.actor.{Actor, ActorLogging}
 
+import scala.concurrent.ExecutionContextExecutor
 import scala.concurrent.duration._
 import scala.util.Random
 
-class PingerActor(pingerList: List[String]) extends Actor{
+class PingerActor(pingerList: List[String], logMessage: String => Unit) extends Actor with ActorLogging {
 
-  implicit val ec = context.system.dispatcher
+  implicit val ec: ExecutionContextExecutor = context.system.dispatcher
 
   override def receive: Receive = {
     case Ping =>
       val recipient = selectNextPinger()
-      println(s"received Ping from ${sender().path.name}")
+      log.info(s"received Ping from ${sender().path.name}")
+      logMessage(s"received Ping from ${sender().path.name}")
       context.system.scheduler.scheduleOnce(Random.nextInt(5).seconds){
         recipient ! Pong
       }
     case Pong =>
       val recipient = selectNextPinger()
-      println(s"received Pong from ${sender().path.name}")
+      log.info(s"received Pong from ${sender().path.name}")
+      logMessage(s"received Pong from ${sender().path.name}")
       context.system.scheduler.scheduleOnce(Random.nextInt(5).seconds){
         recipient ! Ping
       }

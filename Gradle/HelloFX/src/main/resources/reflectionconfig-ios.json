@@ -1,0 +1,229 @@
+[
+  {
+    "name": "akka.Main$Terminator",
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "akka.actor.Actor",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true
+  },
+  {
+    "name": "akka.actor.ActorCell",
+    "fields" : [
+      { "name" : "props", "allowWrite" : true }
+    ]
+  },
+  {
+    "name": "akka.actor.ActorLogging",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true
+  },
+  {
+    "name": "akka.actor.DefaultSupervisorStrategy",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true
+  },
+  {
+    "name": "akka.actor.LocalActorRefProvider",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true
+  },
+  {
+    "name": "akka.actor.LocalActorRefProvider$Guardian",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true
+  },
+  {
+    "name": "akka.actor.LocalActorRefProvider$SystemGuardian",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true
+  },
+  {
+    "name": "akka.actor.Props$EmptyActor",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true
+  },
+  {
+    "name": "akka.dispatch.BoundedDequeBasedMessageQueueSemantics",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true
+  },
+  {
+    "name": "akka.dispatch.BoundedMessageQueueSemantics",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true
+  },
+  {
+    "name": "akka.dispatch.DequeBasedMessageQueueSemantics",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true
+  },
+  {
+    "name": "akka.dispatch.MailboxType",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true
+  },
+  {
+    "name": "akka.dispatch.MultipleConsumerSemantics",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true
+  },
+  {
+    "name": "akka.dispatch.ProducesMessageQueue",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true
+  },
+  {
+    "name": "akka.dispatch.RequiresMessageQueue",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true
+  },
+  {
+  "name": "akka.dispatch.UnboundedDequeBasedMessageQueueSemantics",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true
+  },
+  {
+    "name": "akka.dispatch.UnboundedMailbox",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true
+  },
+  {
+    "name": "akka.dispatch.UnboundedDequeBasedMailbox",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true
+  },
+  {
+    "name": "akka.dispatch.UnboundedMailbox$MessageQueue",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true
+  },
+  {
+    "name": "akka.dispatch.UnboundedMessageQueueSemantics",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true
+  },
+  {
+    "name": "akka.event.DeadLetterListener",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true
+  },
+  {
+    "name": "akka.event.Logging$DefaultLogger",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true
+  },
+  {
+    "name": "akka.event.Logging$StdOutLogger",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true
+  },
+  {
+    "name": "akka.io.SelectionHandler",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true
+  },
+
+  {
+    "name": "akka.io.TcpIncomingConnection",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true
+  },
+  {
+    "name": "akka.io.TcpListener",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true
+  },
+  {
+    "name": "akka.io.TcpManager",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true
+  },
+  {
+    "name": "akka.io.TcpOutgoingConnection",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true
+  },
+  {
+    "name": "akka.routing.ConsistentHashingPool",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true
+  },
+  {
+    "name": "akka.routing.RoundRobinPool",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true
+  },
+  {
+    "name": "akka.routing.RoutedActorCell$RouterActorCreator",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true
+  },
+  {
+    "name": "java.lang.String",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true
+  },
+  {
+    "name": "java.net.Inet6AddressImpl",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true
+  },
+  {
+    "name": "java.util.Date",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true
+  },
+  {
+    "name": "scala.Product",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true
+  },
+  {
+    "name": "sun.reflect.Reflection",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true
+  },
+  {
+    "name":"akka.actor.LightArrayRevolverScheduler",
+    "methods":[{"name":"<init>","parameterTypes":["com.typesafe.config.Config","akka.event.LoggingAdapter","java.util.concurrent.ThreadFactory"] }]
+  },
+  {
+    "name":"akka.actor.LightArrayRevolverScheduler$TaskHolder",
+    "fields":[{"name":"task", "allowUnsafeAccess":true}]
+  },
+  {
+    "name": "akka.io.TcpConnection",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true,
+    "fields" : [
+      { "name" : "context", "allowWrite" : true },
+      { "name" : "self", "allowWrite" : true }
+    ]
+  },
+  {
+    "name": "akka.serialization.SerializationExtension",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true,
+    "allDeclaredMethods": true,
+    "allPublicMethods": true
+  },
+  {
+    "name": "akka.serialization.SerializationExtension$",
+    "fields":[{"name":"MODULE$"}]
+  },
+
+  {
+    "name":"akka.serialization.JavaSerializer",
+    "methods":[{ "name":"<init>", "parameterTypes":["akka.actor.ExtendedActorSystem"] }]
+  },
+
+  {
+    "name":"[B"
+  },
+  {
+    "name":"java.io.Serializable"
+  }
+
+]
