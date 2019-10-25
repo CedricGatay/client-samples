@@ -45,12 +45,22 @@
     "allPublicConstructors": true
   },
   {
+    "name": "akka.dispatch.BoundedControlAwareMessageQueueSemantics",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true
+  },
+  {
     "name": "akka.dispatch.BoundedDequeBasedMessageQueueSemantics",
     "allDeclaredConstructors": true,
     "allPublicConstructors": true
   },
   {
     "name": "akka.dispatch.BoundedMessageQueueSemantics",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true
+  },
+  {
+    "name": "akka.dispatch.ControlAwareMessageQueueSemantics",
     "allDeclaredConstructors": true,
     "allPublicConstructors": true
   },
@@ -80,7 +90,12 @@
     "allPublicConstructors": true
   },
   {
-  "name": "akka.dispatch.UnboundedDequeBasedMessageQueueSemantics",
+    "name": "akka.dispatch.UnboundedControlAwareMessageQueueSemantics",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true
+  },
+  {
+    "name": "akka.dispatch.UnboundedDequeBasedMessageQueueSemantics",
     "allDeclaredConstructors": true,
     "allPublicConstructors": true
   },
@@ -110,6 +125,31 @@
     "allPublicConstructors": true
   },
   {
+    "name": "akka.event.DefaultLoggingFilter",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true
+  },
+  {
+    "name": "akka.event.EventStreamUnsubscriber",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true
+  },
+  {
+    "name": "akka.event.LoggerMailbox",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true
+  },
+  {
+    "name": "akka.event.LoggerMailboxType",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true
+  },
+  {
+    "name": "akka.event.LoggerMessageQueueSemantics",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true
+  },
+  {
     "name": "akka.event.Logging$DefaultLogger",
     "allDeclaredConstructors": true,
     "allPublicConstructors": true
@@ -120,11 +160,25 @@
     "allPublicConstructors": true
   },
   {
+    "name": "akka.io.InetAddressDnsProvider",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true
+  },
+  {
+    "name": "akka.io.InetAddressDnsResolver",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true
+  },
+  {
     "name": "akka.io.SelectionHandler",
     "allDeclaredConstructors": true,
     "allPublicConstructors": true
   },
-
+  {
+    "name": "akka.io.SimpleDnsManager",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true
+  },
   {
     "name": "akka.io.TcpIncomingConnection",
     "allDeclaredConstructors": true,
@@ -137,15 +191,6 @@
   },
   {
     "name": "akka.io.TcpManager",
-    "allDeclaredConstructors": true,
-    "allPublicConstructors": true
-  },
-  {
-    "name": "akka.event.Logging$StdOutLogger",
-    "allDeclaredConstructors": true,
-    "allPublicConstructors": true
-  },{
-    "name": "akka.event.Logging$Error",
     "allDeclaredConstructors": true,
     "allPublicConstructors": true
   },
@@ -195,12 +240,9 @@
     "allPublicConstructors": true
   },
   {
-    "name":"akka.actor.LightArrayRevolverScheduler",
-    "methods":[{"name":"<init>","parameterTypes":["com.typesafe.config.Config","akka.event.LoggingAdapter","java.util.concurrent.ThreadFactory"] }]
-  },
-  {
-    "name":"akka.actor.LightArrayRevolverScheduler$TaskHolder",
-    "fields":[{"name":"task", "allowUnsafeAccess":true}]
+    "name": "akka.actor.LightArrayRevolverScheduler",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true
   },
   {
     "name": "akka.io.TcpConnection",
@@ -222,17 +264,42 @@
     "name": "akka.serialization.SerializationExtension$",
     "fields":[{"name":"MODULE$"}]
   },
-
+  {
+    "name":"akka.serialization.ByteArraySerializer",
+    "methods":[{ "name":"<init>", "parameterTypes":["akka.actor.ExtendedActorSystem"] }]
+  },
   {
     "name":"akka.serialization.JavaSerializer",
     "methods":[{ "name":"<init>", "parameterTypes":["akka.actor.ExtendedActorSystem"] }]
   },
-
+  {
+    "name":"akka.serialization.BooleanSerializer",
+    "methods":[{ "name":"<init>", "parameterTypes":["akka.actor.ExtendedActorSystem"] }]
+  },
   {
     "name":"[B"
   },
   {
     "name":"java.io.Serializable"
+  },
+  {
+    "name": "akka.event.slf4j.Slf4jLoggingFilter",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true
+  },
+  {
+    "name": "akka.event.slf4j.Slf4jLogger",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true
+  },
+  {
+    "name": "java.util.logging.ConsoleHandler",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true
+  },
+  {
+    "name": "java.util.logging.SimpleFormatter",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true
   }
-
 ]

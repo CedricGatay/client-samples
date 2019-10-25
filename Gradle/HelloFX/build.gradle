@@ -11,14 +11,14 @@ repositories {
 
 dependencies {
     def scala_version = '2.12'
-    compile 'org.scala-lang:scala-library:' + scala_version + '.8'
-    compile 'com.typesafe.akka:akka-actor_' + scala_version + ':2.5.25'
-//    compile 'com.typesafe.akka:akka-slf4j_2.12:2.5.+'
+    compile "org.scala-lang:scala-library:${scala_version}.8"
+    compile "com.typesafe.akka:akka-actor_${scala_version}:2.5.25"
+    compile 'com.typesafe.akka:akka-slf4j_2.12:2.5.+'
     //compile('com.github.vmencik:graal-akka-actor_'+ scala_version +':0.5.0')
 
     compileClasspath("com.oracle.substratevm:svm:19.2.0.1")
-//    compile('com.github.vmencik:graal-akka-slf4j_2.12:0.5.0')
-    //"org.slf4j" % "slf4j-jdk14" % "1.7.26", // java.util.logging works mostly out-of-the-box with SubstrateVM
+    //compile("com.github.vmencik:graal-akka-slf4j_${scala_version}:0.5.0")
+    compile("org.slf4j:slf4j-jdk14:1.7.26") // java.util.logging works mostly out-of-the-box with SubstrateVM
     //implementation("fr.acinq.eclair:eclair-core_2.11:0.3.3-android")
 }
 
@@ -34,7 +34,7 @@ gluonClient {
     //reflectionList = []
    target = "ios" // uncomment to deploy on iOS
    resourcesList = [".conf"]
-   //reflectionList = [ "akka.event.Logging\$DefaultLogger" ]
+   reflectionList = [ "akka.event.DefaultLoggingFilter" ]
    //graalPath = "/Users/cgatay/Documents/work/acinq/graalvm-ce-java8-20.0.0-dev/Contents/Home"
    graalPath = "/Users/cgatay/Documents/work/acinq/graalvm-unknown-java11-19.3.0-dev/Contents/Home"
    //graalPath = "/Users/cgatay/.sdkman/candidates/java/19.2.1-grl/"
