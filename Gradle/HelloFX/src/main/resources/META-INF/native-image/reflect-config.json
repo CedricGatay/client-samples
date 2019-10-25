@@ -4,6 +4,7 @@
 },
 {
   "name":"akka.actor.ActorCell",
+  "allDeclaredFields":true,
   "fields":[
     {"name":"akka$actor$dungeon$Children$$_childrenRefsDoNotCallMeDirectly", "allowUnsafeAccess":true}, 
     {"name":"akka$actor$dungeon$Children$$_functionRefsDoNotCallMeDirectly", "allowUnsafeAccess":true}, 
@@ -172,6 +173,7 @@
 },
 {
   "name":"hellofx.PingerActor",
+  "allDeclaredFields":true,
   "allDeclaredConstructors":true
 },
 {
