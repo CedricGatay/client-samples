@@ -38,6 +38,11 @@ gluonClient {
    //graalPath = "/Users/cgatay/Documents/work/acinq/graalvm-ce-java8-20.0.0-dev/Contents/Home"
    graalPath = "/Users/cgatay/Documents/work/acinq/graalvm-unknown-java11-19.3.0-dev/Contents/Home"
    buildStaticLib = true
+    nativeBuildOptions = ["--initialize-at-run-time=" +
+            "akka.protobuf.DescriptorProtos," +
+            "com.typesafe.config.impl.ConfigImpl\$EnvVariablesHolder," +
+            "com.typesafe.config.impl.ConfigImpl\$SystemPropertiesHolder"
+    ]
    //graalPath = "/Users/cgatay/.sdkman/candidates/java/19.2.1-grl/"
    //reflectionConfigFile = "/Users/cgatay/Documents/work/acinq/client-samples/Gradle/HelloFX/src/main/resources/reflectionconfig-ios.json"
 }
