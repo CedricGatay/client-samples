@@ -9,6 +9,7 @@ import akka.http.scaladsl.server.Directives._
 import akka.stream.{ActorMaterializer, Materializer}
 import com.typesafe.config.ConfigFactory
 import com.typesafe.scalalogging.LazyLogging
+import fr.acinq.eclair.Kit
 
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.Success
@@ -16,6 +17,7 @@ import scala.util.Success
 object Main extends LazyLogging {
 
   def main(args: Array[String]): Unit = {
+    new InitEclair().init()
     val customConf = ConfigFactory.parseString("""
                                                  |akka {
                                                  |  loggers = ["akka.event.slf4j.Slf4jLogger"]
@@ -54,7 +56,7 @@ object Main extends LazyLogging {
   private def graalHomepageSize(implicit ec: ExecutionContext,
                                 system: ActorSystem,
                                 mat: Materializer): Future[Int] =
-    Http().singleRequest(HttpRequest(uri = "https://www.graalvm.org")).flatMap { resp =>
+    Http().singleRequest(HttpRequest(uri = "http://www.google.fr")).flatMap { resp =>
       resp.status match {
         case StatusCodes.OK =>
           resp.entity.dataBytes.runFold(0) { (cnt, chunk) =>

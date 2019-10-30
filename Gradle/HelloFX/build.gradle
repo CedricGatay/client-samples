@@ -14,7 +14,7 @@ dependencies {
     //compile "org.scala-lang:scala-library:${scala_version}.8"
     //compile "com.typesafe.akka:akka-actor_${scala_version}:2.5.25"
 
-    //compile "com.typesafe.akka:akka-slf4j_${scala_version}:2.5.+"
+    compile "com.typesafe.akka:akka-slf4j_${scala_version}:2.5.+"
     compile "com.typesafe.akka:akka-stream_${scala_version}:2.5.+"
     compile "com.typesafe.akka:akka-http_${scala_version}:10.1.+"
 
@@ -50,7 +50,7 @@ gluonClient {
     //  "--allow-incomplete-classpath"
     verbose = true
     //reflectionList = []
-   //target = "ios" // uncomment to deploy on iOS
+   target = "ios" // uncomment to deploy on iOS
    resourcesList = [".conf"]
    reflectionList = [ "akka.event.DefaultLoggingFilter" ]
     jniList = [
@@ -58,14 +58,30 @@ gluonClient {
     ]
    //graalPath = "/Users/cgatay/Documents/work/acinq/graalvm-ce-java8-20.0.0-dev/Contents/Home"
    graalPath = "/Users/cgatay/Documents/work/acinq/graalvm-unknown-java11-19.3.0-dev/Contents/Home"
-   //buildStaticLib = true
+   buildStaticLib = true
     nativeBuildOptions = [
+            "-H:+TraceClassInitialization",
+            "-H:IncludeResources=db/.*|static/.*|templates/.*|.*.yml|.*.xml|.*/org/sqlite/.*|org/sqlite/.*",
+            "-H:+AllowVMInspection",
+            "--allow-incomplete-classpath" ,
 //            "--enable-all-security-services",
             "--enable-url-protocols=http,https",
+            "--report-unsupported-elements-at-runtime",
+            "--rerun-class-initialization-at-runtime=" +
+                "zmq.util.Utils" ,  
             "--initialize-at-run-time=" +
-            "akka.protobuf.DescriptorProtos," +
-            "com.typesafe.config.impl.ConfigImpl\$EnvVariablesHolder," +
-            "com.typesafe.config.impl.ConfigImpl\$SystemPropertiesHolder"
+                "akka.protobuf.DescriptorProtos," +
+                "com.typesafe.config.impl.ConfigImpl\$EnvVariablesHolder," +
+                "com.typesafe.config.impl.ConfigImpl\$SystemPropertiesHolder," ,
+            "--rerun-class-initialization-at-runtime=" +
+             "org.sqlite.JDBC," +
+             "org.sqlite.core.DB\$ProgressObserver," +
+             "org.sqlite.core.DB," +
+             "org.sqlite.core.NativeDB," +
+             "org.sqlite.ProgressHandler," +
+             "org.sqlite.Function," +
+             "org.sqlite.Function\$Aggregate," +
+             "org.sqlite.Function\$Window"
     ]
    //graalPath = "/Users/cgatay/.sdkman/candidates/java/19.2.1-grl/"
    //reflectionConfigFile = "/Users/cgatay/Documents/work/acinq/client-samples/Gradle/HelloFX/src/main/resources/reflectionconfig-ios.json"
