@@ -1,0 +1,12 @@
+package hellofx
+
+import java.security.Provider
+
+import javax.net.ssl.{SSLContext, SSLContextSpi}
+
+class DummySSLContext(spi: SSLContextSpi, provider: Provider, s: String) extends SSLContext(spi, provider, s) {
+
+}
+object DummySSLContext{
+  val sslContext: SSLContext = new DummySSLContext(null, null, null)
+}

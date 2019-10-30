@@ -11,15 +11,33 @@ repositories {
 
 dependencies {
     def scala_version = '2.12'
-    compile "org.scala-lang:scala-library:${scala_version}.8"
-    compile "com.typesafe.akka:akka-actor_${scala_version}:2.5.25"
-    compile 'com.typesafe.akka:akka-slf4j_2.12:2.5.+'
+    //compile "org.scala-lang:scala-library:${scala_version}.8"
+    //compile "com.typesafe.akka:akka-actor_${scala_version}:2.5.25"
+
+    //compile "com.typesafe.akka:akka-slf4j_${scala_version}:2.5.+"
+    compile "com.typesafe.akka:akka-stream_${scala_version}:2.5.+"
+    compile "com.typesafe.akka:akka-http_${scala_version}:10.1.+"
+
     //compile('com.github.vmencik:graal-akka-actor_'+ scala_version +':0.5.0')
+    //compile('com.github.vmencik:graal-akka-stream_'+ scala_version +':0.5.0'){
+     //   transitive = false
+    //}
+    //compile('com.github.vmencik:graal-akka-http_'+ scala_version +':0.5.0'){
+     //   transitive = false
+    //}
+
+    compile("com.typesafe.scala-logging:scala-logging_${scala_version}:3.9.2")
+    compile group: 'log4j', name: 'log4j', version: '1.2.17'
 
     compileClasspath("com.oracle.substratevm:svm:19.2.0.1")
     //compile("com.github.vmencik:graal-akka-slf4j_${scala_version}:0.5.0")
     compile("org.slf4j:slf4j-jdk14:1.7.26") // java.util.logging works mostly out-of-the-box with SubstrateVM
-    //implementation("fr.acinq.eclair:eclair-core_2.11:0.3.3-android")
+    implementation("fr.acinq.eclair:eclair-core_${scala_version}:0.3.3-SNAPSHOT"){
+  /*      exclude module: 'graal-akka-http_'+ scala_version
+        exclude module: 'graal-akka-actor_'+ scala_version
+        exclude module: 'graal-akka-slf4j_'+ scala_version
+        exclude module: 'graal-akka-stream_'+ scala_version*/
+    }
 }
 
 gluonClient {
@@ -32,13 +50,19 @@ gluonClient {
     //  "--allow-incomplete-classpath"
     verbose = true
     //reflectionList = []
-   target = "ios" // uncomment to deploy on iOS
+   //target = "ios" // uncomment to deploy on iOS
    resourcesList = [".conf"]
    reflectionList = [ "akka.event.DefaultLoggingFilter" ]
+    jniList = [
+           "org.bitcoin.NativeSecp256k1"
+    ]
    //graalPath = "/Users/cgatay/Documents/work/acinq/graalvm-ce-java8-20.0.0-dev/Contents/Home"
    graalPath = "/Users/cgatay/Documents/work/acinq/graalvm-unknown-java11-19.3.0-dev/Contents/Home"
-   buildStaticLib = true
-    nativeBuildOptions = ["--initialize-at-run-time=" +
+   //buildStaticLib = true
+    nativeBuildOptions = [
+//            "--enable-all-security-services",
+            "--enable-url-protocols=http,https",
+            "--initialize-at-run-time=" +
             "akka.protobuf.DescriptorProtos," +
             "com.typesafe.config.impl.ConfigImpl\$EnvVariablesHolder," +
             "com.typesafe.config.impl.ConfigImpl\$SystemPropertiesHolder"
@@ -52,5 +76,5 @@ javafx {
     modules = [ "javafx.controls" ]
 }*/
 
-mainClassName = 'hellofx.HelloFX'
+mainClassName = 'hellofx.Main'
 //compileScala.targetCompatibility = 1.8

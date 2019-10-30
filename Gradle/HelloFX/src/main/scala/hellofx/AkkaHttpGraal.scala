@@ -16,7 +16,19 @@ import scala.util.Success
 object Main extends LazyLogging {
 
   def main(args: Array[String]): Unit = {
-    val config = ConfigFactory.load()
+    val customConf = ConfigFactory.parseString("""
+                                                 |akka {
+                                                 |  loggers = ["akka.event.slf4j.Slf4jLogger"]
+                                                 |  logging-filter = "akka.event.slf4j.Slf4jLoggingFilter"
+                                                 |}
+                                                 |http {
+                                                 |  service {
+                                                 |    port = 8086
+                                                 |    bind-to = "0.0.0.0"
+                                                 |  }
+                                                 |}
+                                               """.stripMargin('|'))
+    val config = ConfigFactory.load(customConf)
     implicit val system: ActorSystem = ActorSystem("graal", config)
     implicit val materializer: Materializer = ActorMaterializer()
     implicit val ec: ExecutionContext = system.dispatcher
