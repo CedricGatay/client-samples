@@ -1,7 +1,5 @@
 package hellofx
 
-import java.util.logging.LogManager
-
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.model.{HttpRequest, StatusCodes}
@@ -9,7 +7,6 @@ import akka.http.scaladsl.server.Directives._
 import akka.stream.{ActorMaterializer, Materializer}
 import com.typesafe.config.ConfigFactory
 import com.typesafe.scalalogging.LazyLogging
-import fr.acinq.eclair.Kit
 
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.Success
@@ -17,6 +14,8 @@ import scala.util.Success
 object Main extends LazyLogging {
 
   def main(args: Array[String]): Unit = {
+    println("AZEAZEAZEAZEQSDQSDQSDQSDQSD")
+    logger.info(s"Running app")
     new InitEclair().init()
     val customConf = ConfigFactory.parseString("""
                                                  |akka {

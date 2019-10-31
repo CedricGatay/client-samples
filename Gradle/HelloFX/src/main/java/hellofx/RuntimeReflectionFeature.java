@@ -25,6 +25,8 @@ public class RuntimeReflectionFeature implements Feature {
     @Override
     public void beforeAnalysis(BeforeAnalysisAccess access) {
         try {
+
+
             RuntimeReflection.register(DefaultLoggingFilter.class);
             RuntimeReflection.register(DefaultLoggingFilter.class.getDeclaredConstructor());
             RuntimeReflection.register(TcpManager.class);

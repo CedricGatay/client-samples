@@ -28,16 +28,23 @@ dependencies {
 
     compile("com.typesafe.scala-logging:scala-logging_${scala_version}:3.9.2")
     compile group: 'log4j', name: 'log4j', version: '1.2.17'
+   // compile("io.netty:netty-all:4.1.43.Final")
+    //implementation 'io.netty:netty-tcnative-boringssl-static:2.0.26.Final'
+/*    compile group: 'org.conscrypt', name: 'conscrypt-openjdk', version: '2.2.1'
+    compile group: 'org.eclipse.jetty.alpn', name: 'alpn-api', version: '1.0.0'
+    compile group: 'org.eclipse.jetty.npn', name: 'npn-api', version: '8.1.2.v20120308'
+*/
+
 
     compileClasspath("com.oracle.substratevm:svm:19.2.0.1")
     //compile("com.github.vmencik:graal-akka-slf4j_${scala_version}:0.5.0")
     compile("org.slf4j:slf4j-jdk14:1.7.26") // java.util.logging works mostly out-of-the-box with SubstrateVM
     implementation("fr.acinq.eclair:eclair-core_${scala_version}:0.3.3-SNAPSHOT"){
-  /*      exclude module: 'graal-akka-http_'+ scala_version
+        /*exclude module: 'graal-akka-http_'+ scala_version
         exclude module: 'graal-akka-actor_'+ scala_version
         exclude module: 'graal-akka-slf4j_'+ scala_version
         exclude module: 'graal-akka-stream_'+ scala_version*/
-    }
+    } 
 }
 
 gluonClient {
@@ -54,34 +61,57 @@ gluonClient {
    resourcesList = [".conf"]
    reflectionList = [ "akka.event.DefaultLoggingFilter" ]
     jniList = [
-           "org.bitcoin.NativeSecp256k1"
+           "org.bitcoin.NativeSecp256k1",
     ]
    //graalPath = "/Users/cgatay/Documents/work/acinq/graalvm-ce-java8-20.0.0-dev/Contents/Home"
    graalPath = "/Users/cgatay/Documents/work/acinq/graalvm-unknown-java11-19.3.0-dev/Contents/Home"
-   buildStaticLib = true
+   //buildStaticLib = true
     nativeBuildOptions = [
+//            "--debug-attach" , // remote debug on :8000
+            "-H:+ReportUnsupportedElementsAtRuntime",
+            "-H:+ReportExceptionStackTraces",
             "-H:+TraceClassInitialization",
-            "-H:IncludeResources=db/.*|static/.*|templates/.*|.*.yml|.*.xml|.*/org/sqlite/.*|org/sqlite/.*",
-            "-H:+AllowVMInspection",
-            "--allow-incomplete-classpath" ,
-//            "--enable-all-security-services",
-            "--enable-url-protocols=http,https",
-            "--report-unsupported-elements-at-runtime",
-            "--rerun-class-initialization-at-runtime=" +
-                "zmq.util.Utils" ,  
-            "--initialize-at-run-time=" +
-                "akka.protobuf.DescriptorProtos," +
-                "com.typesafe.config.impl.ConfigImpl\$EnvVariablesHolder," +
-                "com.typesafe.config.impl.ConfigImpl\$SystemPropertiesHolder," ,
-            "--rerun-class-initialization-at-runtime=" +
-             "org.sqlite.JDBC," +
-             "org.sqlite.core.DB\$ProgressObserver," +
-             "org.sqlite.core.DB," +
-             "org.sqlite.core.NativeDB," +
-             "org.sqlite.ProgressHandler," +
-             "org.sqlite.Function," +
-             "org.sqlite.Function\$Aggregate," +
-             "org.sqlite.Function\$Window"
+            "--report-unsupported-elements-at-runtime" ,
+            "--initialize-at-build-time",
+//            "        <!-- sqlite -->",
+            "--initialize-at-build-time=org.sqlite.JDBC",
+            "--initialize-at-build-time=org.sqlite.core.DB\$ProgressObserver",
+            "--initialize-at-build-time=org.sqlite.core.DB",
+            "--initialize-at-build-time=org.sqlite.core.NativeDB",
+            "--initialize-at-build-time=org.sqlite.ProgressHandler",
+            "--initialize-at-build-time=org.sqlite.Function",
+            "--initialize-at-build-time=org.sqlite.Function\$Aggregate",
+            "--initialize-at-build-time=org.sqlite.Function\$Window",
+//            "        <!-- bitcoin-lib -->",
+            "--initialize-at-run-time=fr.acinq.bitcoin.Crypto\$",
+//            "<!-- akka and typesafe config-->",
+            "--initialize-at-run-time=akka.protobuf.DescriptorProtos",
+            "--initialize-at-run-time=com.typesafe.config.impl.ConfigImpl\$EnvVariablesHolder",
+            "--initialize-at-run-time=com.typesafe.config.impl.ConfigImpl\$SystemPropertiesHolder",
+//            "<!-- netty -->",
+            "--initialize-at-run-time=io.netty.handler.ssl.JettyAlpnSslEngine\$ClientEngine",
+            "--initialize-at-run-time=io.netty.handler.ssl.JettyAlpnSslEngine\$ServerEngine",
+            "--initialize-at-run-time=io.netty.handler.ssl.ReferenceCountedOpenSslServerContext",
+            "--initialize-at-run-time=io.netty.handler.ssl.ReferenceCountedOpenSslContext" ,
+            "--initialize-at-run-time=io.netty.handler.ssl.ReferenceCountedOpenSslClientContext",
+            "--initialize-at-run-time=io.netty.handler.ssl.JdkNpnApplicationProtocolNegotiator",
+            "--initialize-at-run-time=io.netty.handler.ssl.SslContext",
+            "--initialize-at-run-time=io.netty.handler.ssl.ReferenceCountedOpenSslEngine",
+            "--initialize-at-run-time=io.netty.handler.ssl.ConscryptAlpnSslEngine",
+            "--initialize-at-run-time=io.netty.handler.ssl.JettyNpnSslEngine",
+            "--initialize-at-run-time=io.netty.util.internal.logging.Log4JLogger",
+            "--initialize-at-run-time=io.netty.handler.codec.http2.Http2ClientUpgradeCodec" ,
+            "--initialize-at-run-time=com.google.protobuf.ExtensionRegistryFactory" ,
+            "--initialize-at-run-time=io.netty.handler.ssl.OpenSslClientContext" ,
+            "--initialize-at-run-time=io.netty.handler.ssl.OpenSslServerContext" ,
+            "--initialize-at-run-time=io.netty.internal.tcnative" ,
+            "--initialize-at-run-time=io.netty.buffer" ,
+            "--initialize-at-run-time=io.netty.handler.ssl" ,
+//            "<!-- ZMQ -->",
+            "--initialize-at-run-time=zmq.util.Utils",
+            "--no-server" ,
+            "--no-fallback" ,
+            "--allow-incomplete-classpath"
     ]
    //graalPath = "/Users/cgatay/.sdkman/candidates/java/19.2.1-grl/"
    //reflectionConfigFile = "/Users/cgatay/Documents/work/acinq/client-samples/Gradle/HelloFX/src/main/resources/reflectionconfig-ios.json"
