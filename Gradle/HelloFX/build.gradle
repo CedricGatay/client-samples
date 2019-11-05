@@ -44,7 +44,7 @@ dependencies {
         exclude module: 'graal-akka-actor_'+ scala_version
         exclude module: 'graal-akka-slf4j_'+ scala_version
         exclude module: 'graal-akka-stream_'+ scala_version*/
-    } 
+    }
 }
 
 gluonClient {
@@ -57,17 +57,20 @@ gluonClient {
     //  "--allow-incomplete-classpath"
     verbose = true
     //reflectionList = []
-   target = "ios" // uncomment to deploy on iOS
+   //target = "ios" // uncomment to deploy on iOS
    resourcesList = [".conf"]
    reflectionList = [ "akka.event.DefaultLoggingFilter" ]
     jniList = [
            "org.bitcoin.NativeSecp256k1",
+           "org.bitcoin.Secp256k1Context",
+            "fr.acinq.native"
     ]
    //graalPath = "/Users/cgatay/Documents/work/acinq/graalvm-ce-java8-20.0.0-dev/Contents/Home"
    graalPath = "/Users/cgatay/Documents/work/acinq/graalvm-unknown-java11-19.3.0-dev/Contents/Home"
    //buildStaticLib = true
     nativeBuildOptions = [
 //            "--debug-attach" , // remote debug on :8000
+            "-H:IncludeResources=.*\\.jnilib" ,
             "-H:+ReportUnsupportedElementsAtRuntime",
             "-H:+ReportExceptionStackTraces",
             "-H:+TraceClassInitialization",
@@ -109,6 +112,8 @@ gluonClient {
             "--initialize-at-run-time=io.netty.handler.ssl" ,
 //            "<!-- ZMQ -->",
             "--initialize-at-run-time=zmq.util.Utils",
+            "--initialize-at-run-time=org.bitcoin.Secp256k1Context",
+            "--initialize-at-run-time=fr.acinq.native",
             "--no-server" ,
             "--no-fallback" ,
             "--allow-incomplete-classpath"
@@ -122,5 +127,6 @@ javafx {
     modules = [ "javafx.controls" ]
 }*/
 
-mainClassName = 'hellofx.Main'
+//mainClassName = 'hellofx.Main'
+mainClassName = "HelloJNI"
 //compileScala.targetCompatibility = 1.8

@@ -15,12 +15,14 @@ object Main extends LazyLogging {
 
   def main(args: Array[String]): Unit = {
     println("AZEAZEAZEAZEQSDQSDQSDQSDQSD")
+    System.setProperty("config.trace", "loads")
     logger.info(s"Running app")
     new InitEclair().init()
     val customConf = ConfigFactory.parseString("""
                                                  |akka {
                                                  |  loggers = ["akka.event.slf4j.Slf4jLogger"]
                                                  |  logging-filter = "akka.event.slf4j.Slf4jLoggingFilter"
+                                                 |  loglevel = "DEBUG"
                                                  |}
                                                  |http {
                                                  |  service {
@@ -30,6 +32,7 @@ object Main extends LazyLogging {
                                                  |}
                                                """.stripMargin('|'))
     val config = ConfigFactory.load(customConf)
+    logger.trace("Tracing")
     implicit val system: ActorSystem = ActorSystem("graal", config)
     implicit val materializer: Materializer = ActorMaterializer()
     implicit val ec: ExecutionContext = system.dispatcher
