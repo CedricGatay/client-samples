@@ -1,7 +1,8 @@
 plugins {
     id 'application'
-    id 'scala'
-    id 'com.gluonhq.client-gradle-plugin' version '0.0.15-SNAPSHOT'
+//    id 'scala'
+//    id 'com.gluonhq.client-gradle-plugin' version '0.0.15-SNAPSHOT'
+    id("com.palantir.graal") version "0.3.0-6-g0b828af"
 }
 
 repositories {
@@ -11,10 +12,10 @@ repositories {
 
 dependencies {
     def scala_version = '2.12'
-    compile "org.scala-lang:scala-library:${scala_version}.8"
-    compile "com.typesafe.akka:akka-actor_${scala_version}:2.5.25"
+//    compile "org.scala-lang:scala-library:${scala_version}.8"
+//    compile "com.typesafe.akka:akka-actor_${scala_version}:2.5.25"
 
-    compile group: 'log4j', name: 'log4j', version: '1.2.17'
+//    compile group: 'log4j', name: 'log4j', version: '1.2.17'
    // compile("io.netty:netty-all:4.1.43.Final")
     //implementation 'io.netty:netty-tcnative-boringssl-static:2.0.26.Final'
 /*    compile group: 'org.conscrypt', name: 'conscrypt-openjdk', version: '2.2.1'
@@ -25,10 +26,22 @@ dependencies {
 
     compileClasspath("com.oracle.substratevm:svm:19.2.0.1")
     //compile("com.github.vmencik:graal-akka-slf4j_${scala_version}:0.5.0")
-    compile("org.slf4j:slf4j-jdk14:1.7.26") // java.util.logging works mostly out-of-the-box with SubstrateVM
+//    compile("org.slf4j:slf4j-jdk14:1.7.26") // java.util.logging works mostly out-of-the-box with SubstrateVM
 
 }
 
+graal {
+    graalVersion("19.2.1")
+    mainClass("jni.HelloJNI")
+    outputName("HelloFX")
+    option("-Djava.library.path=/Users/cgatay/Documents/work/acinq/client-samples/Gradle/HelloFX/src/main/java/jni")
+    option("-H:CLibraryPath=/Users/cgatay/Documents/work/acinq/client-samples/Gradle/HelloFX/src/main/java/jni")
+    option("--report-unsupported-elements-at-runtime")
+    option("--allow-incomplete-classpath")
+    option("-H:+ReportExceptionStackTraces")
+    option("--initialize-at-build-time=jni.HelloJNI")
+}
+/*
 gluonClient {
     //"--initialize-at-build-time",
     //  "--initialize-at-run-time=" +
@@ -68,7 +81,9 @@ gluonClient {
     ]
    //graalPath = "/Users/cgatay/.sdkman/candidates/java/19.2.1-grl/"
    //reflectionConfigFile = "/Users/cgatay/Documents/work/acinq/client-samples/Gradle/HelloFX/src/main/resources/reflectionconfig-ios.json"
-}
+}*/
+
+
 /*
 javafx {
     version = "12.0.2"
