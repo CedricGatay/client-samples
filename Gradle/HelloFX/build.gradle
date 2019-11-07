@@ -44,7 +44,7 @@ dependencies {
         exclude module: 'graal-akka-actor_'+ scala_version
         exclude module: 'graal-akka-slf4j_'+ scala_version
         exclude module: 'graal-akka-stream_'+ scala_version*/
-    } 
+    }
 }
 
 gluonClient {
@@ -65,9 +65,10 @@ gluonClient {
     ]
    //graalPath = "/Users/cgatay/Documents/work/acinq/graalvm-ce-java8-20.0.0-dev/Contents/Home"
    graalPath = "/Users/cgatay/Documents/work/acinq/graalvm-unknown-java11-19.3.0-dev/Contents/Home"
-   //buildStaticLib = true
+   buildStaticLib = true
     nativeBuildOptions = [
 //            "--debug-attach" , // remote debug on :8000
+            "-Djava.vm.vendor=The Android Project",
             "-H:+ReportUnsupportedElementsAtRuntime",
             "-H:+ReportExceptionStackTraces",
             "-H:+TraceClassInitialization",
@@ -77,7 +78,9 @@ gluonClient {
             "--initialize-at-build-time=org.sqlite.JDBC",
             "--initialize-at-build-time=org.sqlite.core.DB\$ProgressObserver",
             "--initialize-at-build-time=org.sqlite.core.DB",
-            "--initialize-at-build-time=org.sqlite.core.NativeDB",
+"--initialize-at-run-time=org.sqlite.core.NativeDB",
+"--initialize-at-run-time=org.bitcoin.Secp256k1Context.Secp256k1Context",
+            //"--initialize-at-build-time=org.sqlite.core.NativeDB",
             "--initialize-at-build-time=org.sqlite.ProgressHandler",
             "--initialize-at-build-time=org.sqlite.Function",
             "--initialize-at-build-time=org.sqlite.Function\$Aggregate",
