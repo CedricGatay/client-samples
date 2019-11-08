@@ -2,18 +2,14 @@ package hellofx
 
 import java.io.{File, InputStreamReader}
 import java.net.{HttpURLConnection, URL}
-import java.nio.file.{Files, Path, Paths}
+import java.nio.file.Files
 
 import akka.actor.ActorSystem
 import com.typesafe.config.ConfigFactory
-import com.typesafe.sslconfig.util.ConfigLoader
-import fr.acinq.eclair.{Kit, Setup}
-import scodec.bits.ByteVector
+import fr.acinq.eclair.Setup
 import fr.acinq.eclair.blockchain.electrum.ElectrumEclairWallet
-import fr.acinq.eclair.io.NodeURI
 import fr.acinq.eclair.wire.NodeAddress
-import org.bitcoin.{NativeSecp256k1, NativeSecp256k1Util}
-import org.sqlite.SQLiteJDBCLoader
+import scodec.bits.ByteVector
 
 import scala.collection.mutable.ArrayBuffer
 import scala.concurrent.Await
@@ -25,7 +21,7 @@ import fr.acinq.eclair.io.NodeURI
 
     println(s"java.vm.vendor ${System.getProperty("java.vm.vendor")}")
 
-    /*println("Doing a simple https connection to earn.com")
+    println("Doing a simple https connection to earn.com")
 
     val url = new URL("https://bitcoinfees.earn.com/api/v1/fees/list")
     val con = url.openConnection.asInstanceOf[HttpURLConnection]
@@ -41,7 +37,17 @@ import fr.acinq.eclair.io.NodeURI
     }
     con.disconnect
 
-    println(s"${lines}")*/
+/*
+    {
+      import scala.concurrent.ExecutionContext.Implicits.global
+      import scala.concurrent.duration._
+      implicit val sttpBackend: SttpBackend[Future, Nothing] = AkkaHttpBackend()
+
+      implicit val timeout = Timeout(30 seconds)
+      val provider = new EarnDotComFeeProvider()
+      println("earn.com livenet fees: " + Await.result(provider.getFeerates, 10 seconds))
+    }*/
+    println(s"${lines}")
 
     val nodeId = "03933884aaf1d6b108397e5efe5c86bcf2d8ca8d2f700eda99db9214fc2712b134"
 

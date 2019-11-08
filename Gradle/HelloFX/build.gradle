@@ -35,7 +35,7 @@ dependencies {
     compile group: 'org.eclipse.jetty.npn', name: 'npn-api', version: '8.1.2.v20120308'
 */
 
-
+    // compile("com.softwaremill.sttp:akka-http-backend_${scala_version}:1.7.2")
     compileClasspath("com.oracle.substratevm:svm:19.2.0.1")
     //compile("com.github.vmencik:graal-akka-slf4j_${scala_version}:0.5.0")
     compile("org.slf4j:slf4j-jdk14:1.7.26") // java.util.logging works mostly out-of-the-box with SubstrateVM

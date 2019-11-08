@@ -1,10 +1,12 @@
 package hellofx;
 
 import akka.actor.ActorSystem;
+import akka.actor.ActorSystem.Settings;
 import akka.actor.DynamicAccess;
 import akka.actor.ExtendedActorSystem;
 import akka.actor.LightArrayRevolverScheduler;
 import akka.actor.LocalActorRefProvider;
+import akka.dispatch.BoundedMailbox;
 import akka.event.DefaultLoggingFilter;
 import akka.event.EventStream;
 import akka.event.LoggingAdapter;
@@ -35,20 +37,20 @@ public class RuntimeReflectionFeature implements Feature {
             RuntimeReflection.register(TcpExt.class);
             RuntimeReflection.register(TcpExt.class.getDeclaredConstructor(ExtendedActorSystem.class));
 
-            RuntimeReflection.register(DefaultLoggingFilter.class.getDeclaredConstructor(ActorSystem.Settings.class, EventStream.class));
+            RuntimeReflection.register(DefaultLoggingFilter.class.getDeclaredConstructor(Settings.class, EventStream.class));
             RuntimeReflection.register(Slf4jLoggingFilter.class);
-            RuntimeReflection.register(Slf4jLoggingFilter.class.getDeclaredConstructor(ActorSystem.Settings.class, EventStream.class));
+            RuntimeReflection.register(Slf4jLoggingFilter.class.getDeclaredConstructor(Settings.class, EventStream.class));
             RuntimeReflection.register(LightArrayRevolverScheduler.class);
             RuntimeReflection.register(LightArrayRevolverScheduler.class.getDeclaredConstructor(Config.class, LoggingAdapter.class, ThreadFactory.class));
             RuntimeReflection.register(LocalActorRefProvider.class);
-            RuntimeReflection.register(LocalActorRefProvider.class.getDeclaredConstructor(String.class, ActorSystem.Settings.class, EventStream.class, DynamicAccess.class));
+            RuntimeReflection.register(LocalActorRefProvider.class.getDeclaredConstructor(String.class, Settings.class, EventStream.class, DynamicAccess.class));
             RuntimeReflection.register(ConsistentHashingPool.class);
             RuntimeReflection.register(ConsistentHashingPool.class.getDeclaredConstructor(Config.class));
             RuntimeReflection.register(akka.routing.RoundRobinPool.class);
             RuntimeReflection.register(akka.routing.RoundRobinPool.class.getDeclaredConstructor(Config.class));
             RuntimeReflection.register(StreamRefSerializer.class);
-            RuntimeReflection.register(EarnDotComFeeProvider.class);
-            RuntimeReflection.register(EarnDotComFeeProvider.class.getDeclaredMethod("getFeerates"));
+            RuntimeReflection.register(BoundedMailbox.class);
+            RuntimeReflection.register(BoundedMailbox.class.getDeclaredConstructor(Settings.class, Config.class));
         } catch (Exception e) {
             System.err.println("Unable to register logging filter " + e);
         }
