@@ -69,6 +69,7 @@ gluonClient {
     nativeBuildOptions = [
 //            "--debug-attach" , // remote debug on :8000
             "-Djava.vm.vendor=The Android Project",
+            "--enable-url-protocols=https",
             "-H:+ReportUnsupportedElementsAtRuntime",
             "-H:+ReportExceptionStackTraces",
             "-H:+TraceClassInitialization",

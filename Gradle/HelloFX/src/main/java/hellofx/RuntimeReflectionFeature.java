@@ -15,6 +15,7 @@ import akka.routing.ConsistentHashingPool;
 import akka.stream.serialization.StreamRefSerializer;
 import com.oracle.svm.core.annotate.AutomaticFeature;
 import com.typesafe.config.Config;
+import fr.acinq.eclair.blockchain.fee.EarnDotComFeeProvider;
 import org.graalvm.nativeimage.hosted.Feature;
 import org.graalvm.nativeimage.hosted.RuntimeReflection;
 
@@ -46,6 +47,8 @@ public class RuntimeReflectionFeature implements Feature {
             RuntimeReflection.register(akka.routing.RoundRobinPool.class);
             RuntimeReflection.register(akka.routing.RoundRobinPool.class.getDeclaredConstructor(Config.class));
             RuntimeReflection.register(StreamRefSerializer.class);
+            RuntimeReflection.register(EarnDotComFeeProvider.class);
+            RuntimeReflection.register(EarnDotComFeeProvider.class.getDeclaredMethod("getFeerates"));
         } catch (Exception e) {
             System.err.println("Unable to register logging filter " + e);
         }

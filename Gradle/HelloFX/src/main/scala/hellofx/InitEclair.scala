@@ -1,6 +1,7 @@
 package hellofx
 
-import java.io.File
+import java.io.{File, InputStreamReader}
+import java.net.{HttpURLConnection, URL}
 import java.nio.file.{Files, Path, Paths}
 
 import akka.actor.ActorSystem
@@ -14,6 +15,7 @@ import fr.acinq.eclair.wire.NodeAddress
 import org.bitcoin.{NativeSecp256k1, NativeSecp256k1Util}
 import org.sqlite.SQLiteJDBCLoader
 
+import scala.collection.mutable.ArrayBuffer
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
 
@@ -22,6 +24,24 @@ import fr.acinq.eclair.io.NodeURI
   def init(): Unit ={
 
     println(s"java.vm.vendor ${System.getProperty("java.vm.vendor")}")
+
+    /*println("Doing a simple https connection to earn.com")
+
+    val url = new URL("https://bitcoinfees.earn.com/api/v1/fees/list")
+    val con = url.openConnection.asInstanceOf[HttpURLConnection]
+    con.setRequestMethod("GET")
+    val status = con.getResponseCode
+    println(s"Response ${status}")
+    import java.io.BufferedReader
+    val in = new BufferedReader(new InputStreamReader(con.getInputStream))
+    val lines = new ArrayBuffer[String]()
+    var line: String = null
+    while ({line = in.readLine; line != null}) {
+      lines.append(line)
+    }
+    con.disconnect
+
+    println(s"${lines}")*/
 
     val nodeId = "03933884aaf1d6b108397e5efe5c86bcf2d8ca8d2f700eda99db9214fc2712b134"
 
@@ -94,6 +114,8 @@ import fr.acinq.eclair.io.NodeURI
     println(s"Loaded configuration ${loadedConfig}")
     val setup = new Setup(dataDir.toFile, loadedConfig, Option.apply(seed), Option.empty)(system)
     println(s"Setup eclair done ${setup}")
+
+
 
 
     val host = "endurance.acinq.co"
