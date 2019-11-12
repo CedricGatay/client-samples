@@ -6,6 +6,7 @@
     {"pattern":"META-INF/services/jdk.vm.ci.services.JVMCIServiceLocator"}, 
     {"pattern":"akka-http-version.conf"}, 
     {"pattern":"application.conf"}, 
+    {"pattern":"electrum/checkpoints_testnet.json"}, 
     {"pattern":"electrum/servers_testnet.json"}, 
     {"pattern":"fr/acinq/native/Mac/x86_64/libsecp256k1.jnilib"}, 
     {"pattern":"library.properties"}, 

@@ -18,7 +18,7 @@ object Main extends LazyLogging {
     logger.info(s"Running app")
     val properties = System.getProperties
     properties.forEach((k: Any, v: Any) => System.out.println(k + ":" + v))
-    new InitEclair().init()
+    InitEclair.init()
     val customConf = ConfigFactory.parseString("""
                                                  |akka {
                                                  |  loggers = ["akka.event.slf4j.Slf4jLogger"]

@@ -4,11 +4,19 @@ import java.io.{File, InputStreamReader}
 import java.net.{HttpURLConnection, URL}
 import java.nio.file.Files
 
-import akka.actor.ActorSystem
+import akka.actor.{ActorSystem, Props}
+import com.oracle.svm.core.OS
 import com.typesafe.config.ConfigFactory
 import fr.acinq.eclair.Setup
 import fr.acinq.eclair.blockchain.electrum.ElectrumEclairWallet
+import fr.acinq.eclair.channel.ChannelEvent
+import fr.acinq.eclair.db.BackupEvent
+import fr.acinq.eclair.io.NodeURI
+import fr.acinq.eclair.payment.PaymentEvent
+import fr.acinq.eclair.router.SyncProgress
 import fr.acinq.eclair.wire.NodeAddress
+import org.graalvm.nativeimage.CurrentIsolate
+import org.graalvm.nativeimage.c.`type`.CTypeConversion
 import scodec.bits.ByteVector
 
 import scala.collection.mutable.ArrayBuffer
@@ -16,18 +24,17 @@ import scala.concurrent.Await
 import scala.concurrent.duration.Duration
 
 class InitEclair {
-import fr.acinq.eclair.io.NodeURI
+
+}
+object InitEclair{
   def init(): Unit ={
-
-    println(s"java.vm.vendor ${System.getProperty("java.vm.vendor")}")
-
-    println("Doing a simple https connection to earn.com")
-
+    log(s"java.vm.vendor ${System.getProperty("java.vm.vendor")}")
+    log("Doing a simple https connection to earn.com")
     val url = new URL("https://bitcoinfees.earn.com/api/v1/fees/list")
     val con = url.openConnection.asInstanceOf[HttpURLConnection]
     con.setRequestMethod("GET")
     val status = con.getResponseCode
-    println(s"Response ${status}")
+    log(s"Response ${status}")
     import java.io.BufferedReader
     val in = new BufferedReader(new InputStreamReader(con.getInputStream))
     val lines = new ArrayBuffer[String]()
@@ -47,7 +54,7 @@ import fr.acinq.eclair.io.NodeURI
       val provider = new EarnDotComFeeProvider()
       println("earn.com livenet fees: " + Await.result(provider.getFeerates, 10 seconds))
     }*/
-    println(s"${lines}")
+    log(s"${lines}")
 
     val nodeId = "03933884aaf1d6b108397e5efe5c86bcf2d8ca8d2f700eda99db9214fc2712b134"
 
@@ -92,34 +99,34 @@ import fr.acinq.eclair.io.NodeURI
         |}
         |
       """.stripMargin('|'))
-    println("Creating dataDir ")
+    log("Creating dataDir ")
     val dataDir = Files.createTempDirectory("eclair")
-    println(s"Created dataDir ${dataDir}")
+    log(s"Created dataDir ${dataDir}")
     val fileExists = dataDir.toFile.exists()
-    println(s"FileExists ${fileExists}")
+    log(s"FileExists ${fileExists}")
     val path = Files.createFile(new File(dataDir.toFile, "eclair.conf").toPath)
-    println(s"Created eclair.conf file ${path}")
+    log(s"Created eclair.conf file ${path}")
 
     val system = ActorSystem("system", ConfigFactory.load(config))
-    println(s"Created actor system ${system}")
+    log(s"Created actor system ${system}")
 
     //SQLiteJDBCLoader.initialize()
     if ("The Android Project".equals(System.getProperty("java.vm.vendor"))){
-      println("Running on 'mobile / graal boostrap' environment, loading libraries using java.library.path")
+      log("Running on 'mobile / graal boostrap' environment, loading libraries using java.library.path")
       System.loadLibrary("secp256k1")
-      println("Loaded libsecp256k1")
+      log("Loaded libsecp256k1")
 
       System.loadLibrary("sqlitejdbc")
-      println("Loaded libsqlitejdbc")
+      log("Loaded libsqlitejdbc")
     }
     Class.forName("org.sqlite.JDBC")
-    println(s"Loaded JDBC")
+    log(s"Loaded JDBC")
     val seed = ByteVector.apply("this is a test".getBytes)
-    println(s"Created seed ${seed}")
+    log(s"Created seed ${seed}")
     val loadedConfig = ConfigFactory.load(config)
-    println(s"Loaded configuration ${loadedConfig}")
+    log(s"Loaded configuration ${loadedConfig}")
     val setup = new Setup(dataDir.toFile, loadedConfig, Option.apply(seed), Option.empty)(system)
-    println(s"Setup eclair done ${setup}")
+    log(s"Setup eclair done ${setup}")
 
 
 
@@ -127,22 +134,51 @@ import fr.acinq.eclair.io.NodeURI
     val host = "endurance.acinq.co"
     val port = "9735"
     try {
-      println("Loaded JNI for Secp256k1")
+      log("Loaded JNI for Secp256k1")
       val ACINQ_NODE_URI: NodeURI = NodeURI.parse(nodeId + "@" + host + ":" + port)
-      println(s"Set node coordinates ${ACINQ_NODE_URI}")
+      log(s"Set node coordinates ${ACINQ_NODE_URI}")
       setup.nodeParams.db.peers.addOrUpdatePeer(ACINQ_NODE_URI.nodeId, NodeAddress.fromParts(ACINQ_NODE_URI.address.getHost, ACINQ_NODE_URI.address.getPort).get)
-      println(s"Added peer")
+      log(s"Added peer")
     } catch {
       case e: Throwable => e.printStackTrace()
     }
-    println("Bootstraping setup")
-    val fKit = setup.bootstrap
-    println(s"Bootstrapped Future ${fKit}")
-    val kit = Await.result(fKit, Duration.create(60, "seconds"))
-    println(s"Got Kit ${kit}")
-    val electrumWallet = kit.wallet.asInstanceOf[ElectrumEclairWallet]
-    println(s"Got Wallet ${electrumWallet}")
 
-//    val appKit = new Kit(electrumWallet, kit)
+    val nodeSupervisor = system.actorOf(Props.create(classOf[NodeSupervisor]), "NodeSupervisor")
+    system.eventStream.subscribe(nodeSupervisor, classOf[BackupEvent])
+    system.eventStream.subscribe(nodeSupervisor, classOf[ChannelEvent])
+    system.eventStream.subscribe(nodeSupervisor, classOf[SyncProgress])
+    system.eventStream.subscribe(nodeSupervisor, classOf[PaymentEvent])
+
+    log("Bootstraping setup")
+    val fKit = setup.bootstrap
+    log(s"Bootstrapped Future ${fKit}")
+    val kit = Await.result(fKit, Duration.create(60, "seconds"))
+    log(s"Got Kit ${kit}")
+    val electrumWallet = kit.wallet.asInstanceOf[ElectrumEclairWallet]
+    log(s"Got Wallet ${electrumWallet}")
+  }
+
+  def log(msg: String): Unit ={
+    println(msg)
+    val currentThread = CurrentIsolate.getCurrentThread
+    /* Call a C function directly. */
+    if (OS.getCurrent ne OS.WINDOWS) {
+      /*
+       * Calling C functions provided by the main executable from a shared library produced by
+       * the native-image is not yet supported on Windows.
+       */
+      CInterfaceTutorial.printingInC(currentThread, CTypeConversion.toCString(msg).get())
+    }
   }
 }
+
+import akka.actor.UntypedActor
+
+class NodeSupervisor extends UntypedActor {
+  override def onReceive(message: Any): Unit = {
+    println(message)
+  }
+}
+
+
+

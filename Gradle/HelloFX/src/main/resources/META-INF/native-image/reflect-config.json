@@ -62,6 +62,10 @@
   "name":"akka.dispatch.BoundedDequeBasedMessageQueueSemantics"
 },
 {
+  "name":"akka.dispatch.BoundedMailbox",
+  "methods":[{"name":"<init>","parameterTypes":["akka.actor.ActorSystem$Settings","com.typesafe.config.Config"] }]
+},
+{
   "name":"akka.dispatch.BoundedMessageQueueSemantics"
 },
 {
@@ -141,44 +145,27 @@
   "name":"akka.event.LoggerMessageQueueSemantics"
 },
 {
-  "name":"akka.event.Logging$DefaultLogger",
+  "name":"akka.event.slf4j.Slf4jLogger",
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
-  "name":"akka.event.slf4j.Slf4jLogger",
-  "methods":[{"name":"<init>","parameterTypes":[] }]
+  "name":"akka.event.slf4j.Slf4jLoggingFilter",
+  "methods":[{"name":"<init>","parameterTypes":["akka.actor.ActorSystem$Settings","akka.event.EventStream"] }]
 },
 {
   "name":"akka.http.impl.engine.client.PoolMasterActor",
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
-  "name":"akka.io.InetAddressDnsProvider",
-  "methods":[{"name":"<init>","parameterTypes":[] }]
-},
-{
-  "name":"akka.io.InetAddressDnsResolver",
-  "allDeclaredConstructors":true
-},
-{
   "name":"akka.io.SelectionHandler",
   "allDeclaredConstructors":true
 },
 {
-  "name":"akka.io.SimpleDnsManager",
+  "name":"akka.io.TcpListener",
   "allDeclaredConstructors":true
-},
-{
-  "name":"akka.io.TcpConnection",
-  "allDeclaredFields":true
 },
 {
   "name":"akka.io.TcpManager",
-  "allDeclaredConstructors":true
-},
-{
-  "name":"akka.io.TcpOutgoingConnection",
-  "allDeclaredFields":true,
   "allDeclaredConstructors":true
 },
 {
@@ -223,14 +210,6 @@
   "name":"akka.stream.SourceRef"
 },
 {
-  "name":"akka.stream.impl.fusing.ActorGraphInterpreter",
-  "allDeclaredFields":true
-},
-{
-  "name":"akka.stream.impl.io.TLSActor",
-  "allDeclaredFields":true
-},
-{
   "name":"akka.stream.impl.streamref.StreamRefsProtocol"
 },
 {
@@ -263,6 +242,22 @@
     {"name":"exceptionCaught","parameterTypes":["io.netty.channel.ChannelHandlerContext","java.lang.Throwable"] }, 
     {"name":"write","parameterTypes":["io.netty.channel.ChannelHandlerContext","java.lang.Object","io.netty.channel.ChannelPromise"] }
   ]
+},
+{
+  "name":"fr.acinq.eclair.payment.Auditor",
+  "allDeclaredConstructors":true
+},
+{
+  "name":"fr.acinq.eclair.payment.PaymentInitiator",
+  "allDeclaredConstructors":true
+},
+{
+  "name":"fr.acinq.eclair.payment.Relayer",
+  "allDeclaredConstructors":true
+},
+{
+  "name":"hellofx.NodeSupervisor",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
   "name":"io.netty.buffer.AbstractByteBufAllocator",
@@ -346,13 +341,19 @@
   "name":"io.netty.channel.DefaultChannelPipeline$TailContext",
   "methods":[
     {"name":"channelActive","parameterTypes":["io.netty.channel.ChannelHandlerContext"] }, 
+    {"name":"channelActive","parameterTypes":["io.netty.channel.ChannelHandlerContext"] }, 
+    {"name":"channelInactive","parameterTypes":["io.netty.channel.ChannelHandlerContext"] }, 
     {"name":"channelInactive","parameterTypes":["io.netty.channel.ChannelHandlerContext"] }, 
     {"name":"channelRead","parameterTypes":["io.netty.channel.ChannelHandlerContext","java.lang.Object"] }, 
     {"name":"channelReadComplete","parameterTypes":["io.netty.channel.ChannelHandlerContext"] }, 
     {"name":"channelRegistered","parameterTypes":["io.netty.channel.ChannelHandlerContext"] }, 
+    {"name":"channelRegistered","parameterTypes":["io.netty.channel.ChannelHandlerContext"] }, 
     {"name":"channelUnregistered","parameterTypes":["io.netty.channel.ChannelHandlerContext"] }, 
     {"name":"channelWritabilityChanged","parameterTypes":["io.netty.channel.ChannelHandlerContext"] }, 
+    {"name":"channelWritabilityChanged","parameterTypes":["io.netty.channel.ChannelHandlerContext"] }, 
     {"name":"exceptionCaught","parameterTypes":["io.netty.channel.ChannelHandlerContext","java.lang.Throwable"] }, 
+    {"name":"exceptionCaught","parameterTypes":["io.netty.channel.ChannelHandlerContext","java.lang.Throwable"] }, 
+    {"name":"userEventTriggered","parameterTypes":["io.netty.channel.ChannelHandlerContext","java.lang.Object"] }, 
     {"name":"userEventTriggered","parameterTypes":["io.netty.channel.ChannelHandlerContext","java.lang.Object"] }
   ]
 },
@@ -371,7 +372,9 @@
 },
 {
   "name":"io.netty.handler.codec.MessageToMessageDecoder",
-  "methods":[{"name":"channelRead","parameterTypes":["io.netty.channel.ChannelHandlerContext","java.lang.Object"] }]
+  "methods":[
+    {"name":"channelRead","parameterTypes":["io.netty.channel.ChannelHandlerContext","java.lang.Object"] }
+  ]
 },
 {
   "name":"io.netty.handler.codec.MessageToMessageEncoder",
