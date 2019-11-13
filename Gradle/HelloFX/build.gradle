@@ -117,14 +117,6 @@ gluonClient {
             "--no-fallback" ,
             "--allow-incomplete-classpath"
     ]
-   //graalPath = "/Users/cgatay/.sdkman/candidates/java/19.2.1-grl/"
-   //reflectionConfigFile = "/Users/cgatay/Documents/work/acinq/client-samples/Gradle/HelloFX/src/main/resources/reflectionconfig-ios.json"
 }
-/*
-javafx {
-    version = "12.0.2"
-    modules = [ "javafx.controls" ]
-}*/
 
 mainClassName = 'hellofx.Main'
-//compileScala.targetCompatibility = 1.8

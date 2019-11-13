@@ -1,58 +1,113 @@
-# Gluon Client Samples
+# Eclair to iOS Graal Sample
 
-Java and JavaFX samples to run with OpenJDK 11, GraalVM and the Gluon Client plugins for [Maven](https://github.com/gluonhq/client-maven-plugin/) and [Gradle](https://github.com/gluonhq/client-gradle-plugin/).
 
-**Requirements**
+## Repository forked from Hello Gluon Samples
 
-For now, Linux, Mac OS X and iOS platforms are supported.
+NOTE: Only HelloFX is kept and adapted to make things "work"
+
+
+## Purpose
+
+This repository is a base for building out Eclair SDK for usage on apple mobile devices. 
+It leverage the work done by Gluon team to allow using GraalVM to target iOS platforms.
+
+## Steps
+
+### Prerequisites
+
+The work on this repository relies on forked version of `com.gluonhq.client-gradle-plugin` ([here](https://github.com/CedricGatay/client-gradle-plugin)) to be able to set the following parameters :
  
-To develop and deploy native applications on Mac or iOS platforms, a Mac with macOS X 10.13.2 or superior, and Xcode 9.2 or superior, available from the Mac App Store, are required.
+ * `graalPath` points to a local GraalVM version
+ * `buildStaticLib` to build the result to a static library (`.a` file)
+ * `nativeBuildOptions` to be able to pass specific parameters to `native-image` command.
 
-As well, for now only JDK 11 is supported. Any JDK 11 distribution that doesn't bundle JavaFX is valid, like:
+It also relies on a forked version of `substrate` (GluonHQ's wrapper to `native-image`, [here](https://github.com/CedricGatay/substrate/tree/experiment/akka_scala_eclair)) implementing the flags described in the previous part and stubbing methods missing from libraries : `JVM_fillInStackTrace` and `Java_jdk_net_MacOSXSocketOptions_*`.
 
-- [OpenJDK 11.0.2](https://download.java.net/java/GA/jdk11/9/GPL/openjdk-11.0.2_osx-x64_bin.tar.gz)
-- [AdoptOpenJDK 11.0.3](https://github.com/AdoptOpenJDK/openjdk11-binaries/releases/download/jdk-11.0.3%2B7/OpenJDK11U-jdk_x64_mac_hotspot_11.0.3_7.tar.gz) 
+GraalVM version should be a Java 11 compatible one, tested with unreleased version 19.3.0 at the time of this writing (http://download2.gluonhq.com/substrate/graalvm/graalvm-unknown-java11-19.3.0-dev-gvm-3-darwin-amd64.zip).
 
-Once downloaded and installed, don't forget to set `JAVA_HOME` pointing to that JDK.
+We need to use llvm 8.0 (https://releases.llvm.org/8.0.0/clang+llvm-8.0.0-x86_64-apple-darwin.tar.xz)
 
-The HelloGluon sample can be run without a Gluon Mobile license, but a nag screen will show up. See the [Gluon Mobile product page](https://gluonhq.com/products/mobile/) for more details. 
+This is documented in issue https://github.com/gluonhq/substrate/issues/47 of original `substrate`'s repository.
 
-**Documentation**
+If you're using `sdkman` you can source the file `env.cgatay` that will try to setup things the way it should (adapt paths relative to your machine, the same goes for the gradle build file where `graalPath` is pointing to a local version)
 
-Check the [documentation](https://docs.gluonhq.com/client) for more details about the plugins and running the following samples.
 
-## Gradle
+### How to build
 
-### HelloWorld, HelloFX, HelloFXML and HelloGluon samples
+iOS sample project is available [here](https://github.com/CedricGatay/graal-test-ios-static-lib).
 
-The following tasks apply to Linux, Mac OS X, iOS simulator and iOS devices. See each sample for configuration details.
+```sh
+source env.cgatay
+./gradlew clean nB
+```
 
-To compile and link:
+This will take a while (~ 8min), even on a powerful machine, then copy static lib and headers to iOS project directory
 
-    ./gradlew clean build nativeCompile nativeLink
-    
-or
+`cp build/client/arm64-ios/gvm/shared/HelloFX.a $IOSPROJECT/hellofx.main.a`
+`cp build/client/arm64-ios/gvm/shared/hellofx.main.h $IOSPROJECT/hellofx.main.h`
 
-    ./gradlew clean nativeBuild
+Add the following flags the the linker (they are already set for the sample project):  `-lpthread -lz -ldl -lc++` and disable _dead code stripping_ as it make the linker segfaults.
 
-To run:
-    
-    ./gradlew nativeRun
+Then run iOS project, it should link properly against a physical device (targetting a simulator is broken for the time being).
 
-## Maven
+This means you need to have a valid developer account that can sign apps for your device.
 
-### HelloWorld, HelloFX, HelloFXML and HelloGluon samples
 
-The following tasks apply to Linux, Mac OS X, iOS simulator and iOS devices. See each sample for configuration details.
+## Side notes
 
-To compile and link:
+### Build native app
 
-    mvn clean client:compile client:link
-    
-or
+Instead of building a static lib it is possible to build an iOS app. However this app won't have any GUI if you're not setting the JavaFX part back on track.
 
-    mvn clean client:build
+You can still use it to test things and check the console output. To do so, the steps are the following: 
 
-To run:
+ * remove the `buildStaticLib` flag from build file
+ * `./gradlew clean nB`
+ * open XCode > Device and Simulators, select target device and drag and drop `build/client/arm64-ios/HelloFX.app` to the list of app, this will install the app on your device.
+ * You can launch the app from the _springboard_ but it won't show the logs, the easiest way of doing it is using `instruments`. From your terminal, launch the app using `instruments` : `instruments -w $DEVICEID -t "/Applications/Xcode.app/Contents/Applications/Instruments.app/Contents/Resources/templates/Allocations.tracetemplate" hellofx.Main` (where `$DEVICEID` can be found using `instruments -s devices`)
+ * open the `.trace` with instruments and check the console output.
 
-    mvn client:run
+### JNI library loading
+
+Eclair relies on two libraries using JNI : `libsecp256k1` `libsqlitejdbc`. 
+They are using a trick in their loading to allow bundling the dynamic library in the jar file and loading it without setting the `java.library.path`.
+Unfortunately, this does not work as expected on mobile device. 
+
+We have to set the `java.library.path` system property when we boot the GraalVM part and point it to a location where the dynamic libraries are. 
+To prevent the "copy" logic to happen, we also have to fake the JVM vendor flag to `The Android Project` so that it triggers a "classic" load of the library (note that this flag has to be passed to `native-image` so that it builds the proper code path).
+
+
+Fortunately, this is rather easy to pass flags to GraalVM library, it is done in the sample ios project. The tricky part is building the native code for the target architecture `arm64` (or `aarch64`).
+
+### Build native dynamic libraries
+
+NOTE: fat libraries are not considered for the time being, only targetting `arm64`, we do not bundle different architectures, though it would be doable using `lipo`.
+
+To be able to cross compile to `arm64` we use the following fork of `ios-autotools` that builds _dynamic_ libraries instead of static ones : https://github.com/CedricGatay/ios-autotools.
+
+#### `libsecp256k1`
+
+Using the fork [here](https://github.com/araspitzu/secp256k1/tree/jni_non_static_init).
+
+Then building is pretty straightforward: 
+
+```sh
+iconfigure arm64 --enable-experimental --enable-module_ecdh --enable-jni
+make clean
+make
+cp .libs/libsecp256k1.dylib $IOSPROJECT/
+```
+
+#### `libsqlitejdbc`
+
+Using the fork [here](https://github.com/CedricGatay/sqlite-jdbc). It adds configuration for architecture `arm64`.
+
+```sh
+make jni-header
+OS_ARCH=arm64 make native
+cp ./target/classes/org/sqlite/native/Mac/arm64/libsqlitejdbc.jnilib $IOSPROJECT/libsqlitejdbc.dylib
+```
+
+#### Dummy classes
+
+There are dummy classes for Netty and Jetty parts that are here to please Graal during image generation, there is dead code to track easily what has been done and fallback to simpler use cases if required.
