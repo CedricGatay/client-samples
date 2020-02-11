@@ -1,7 +1,7 @@
 plugins {
     id 'application'
     id 'scala'
-    id 'com.gluonhq.client-gradle-plugin' version '0.0.15-SNAPSHOT'
+    id 'com.gluonhq.client-gradle-plugin' version '0.0.15-ACINQ-SNAPSHOT'
 }
 
 repositories {
@@ -64,7 +64,9 @@ gluonClient {
            "org.bitcoin.NativeSecp256k1",
     ]
    //graalPath = "/Users/cgatay/Documents/work/acinq/graalvm-ce-java8-20.0.0-dev/Contents/Home"
-   graalPath = "/Users/cgatay/Documents/work/acinq/graalvm-unknown-java11-19.3.0-dev/Contents/Home"
+   //graalPath = "/Users/cgatay/Documents/work/acinq/graalvm-unknown-java11-19.3.0-dev/Contents/Home"
+    graalLibsPath = "/Users/cgatay/.sdkman/candidates/java/19.3.1.r11-grl/"
+    llcPath = "/Users/cgatay/Documents/work/acinq/clang+llvm-9.0.0-x86_64-darwin-apple/bin/llc"
    buildStaticLib = true
     nativeBuildOptions = [
 //            "--debug-attach" , // remote debug on :8000
@@ -115,7 +117,8 @@ gluonClient {
             "--initialize-at-run-time=zmq.util.Utils",
             "--no-server" ,
             "--no-fallback" ,
-            "--allow-incomplete-classpath"
+            "--allow-incomplete-classpath",
+            "-H:LLVMBatchesPerThread=-1"
     ]
 }
 
