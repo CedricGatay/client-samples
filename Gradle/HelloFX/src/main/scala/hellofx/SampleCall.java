@@ -22,11 +22,19 @@ public class SampleCall {
     }
 
     @CEntryPoint static void start(IsolateThread thread) {
-        HelloFX.instance().init();
+        try {
+            HelloFX.instance().init();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @CEntryPoint static void stop(IsolateThread thread) {
-        HelloFX.instance().stop();
+        try {
+            HelloFX.instance().stop();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -34,7 +42,11 @@ public class SampleCall {
         String[] args = SubstrateUtil.getArgs(paramArgc, paramArgv);
         args = RuntimeOptionParser.parseAndConsumeAllOptions(args);
         System.out.println("args = " + args);
-        InitEclair.init();
+        try {
+            InitEclair.init();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 

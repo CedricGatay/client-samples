@@ -4,14 +4,15 @@ import java.io.{File, InputStreamReader}
 import java.net.{HttpURLConnection, URL}
 import java.nio.file.Files
 
-import akka.actor.{ActorSystem, Props}
+import akka.actor.{Actor, ActorSystem, Props}
 import com.oracle.svm.core.OS
 import com.typesafe.config.ConfigFactory
 import fr.acinq.eclair.Setup
 import fr.acinq.eclair.blockchain.electrum.ElectrumEclairWallet
 import fr.acinq.eclair.channel.ChannelEvent
 import fr.acinq.eclair.db.BackupEvent
-import fr.acinq.eclair.io.NodeURI
+import fr.acinq.eclair.io.Peer.Connect
+import fr.acinq.eclair.io.{NodeURI, Peer}
 import fr.acinq.eclair.payment.PaymentEvent
 import fr.acinq.eclair.router.SyncProgress
 import fr.acinq.eclair.wire.NodeAddress
@@ -26,78 +27,89 @@ import scala.concurrent.duration.Duration
 class InitEclair {
 
 }
-object InitEclair{
-  def init(): Unit ={
+
+object InitEclair {
+  def init(): Unit = {
     log(s"java.vm.vendor ${System.getProperty("java.vm.vendor")}")
-    log("Doing a simple https connection to earn.com")
-    val url = new URL("https://bitcoinfees.earn.com/api/v1/fees/list")
-    val con = url.openConnection.asInstanceOf[HttpURLConnection]
-    con.setRequestMethod("GET")
-    val status = con.getResponseCode
-    log(s"Response ${status}")
-    import java.io.BufferedReader
-    val in = new BufferedReader(new InputStreamReader(con.getInputStream))
-    val lines = new ArrayBuffer[String]()
-    var line: String = null
-    while ({line = in.readLine; line != null}) {
-      lines.append(line)
-    }
-    con.disconnect
+   // log(ConfigFactory.defaultReference().getConfig("akka").getConfig("actor").getConfig("default-dispatcher").toString)
+      log("Doing a simple https connection to earn.com")
+      val url = new URL("https://bitcoinfees.earn.com/api/v1/fees/list")
+      val con = url.openConnection.asInstanceOf[HttpURLConnection]
+      con.setRequestMethod("GET")
+      val status = con.getResponseCode
+      log(s"Response ${status}")
 
-/*
-    {
-      import scala.concurrent.ExecutionContext.Implicits.global
-      import scala.concurrent.duration._
-      implicit val sttpBackend: SttpBackend[Future, Nothing] = AkkaHttpBackend()
+      import java.io.BufferedReader
+      val in = new BufferedReader(new InputStreamReader(con.getInputStream))
+      val lines = new ArrayBuffer[String]()
+      var line: String = null
+      while ( {
+        line = in.readLine; line != null
+      }) {
+        lines.append(line)
+      }
+      con.disconnect
+      log(s"${lines}")
 
-      implicit val timeout = Timeout(30 seconds)
-      val provider = new EarnDotComFeeProvider()
-      println("earn.com livenet fees: " + Await.result(provider.getFeerates, 10 seconds))
-    }*/
-    log(s"${lines}")
+    /*
+        {
+          import scala.concurrent.ExecutionContext.Implicits.global
+          import scala.concurrent.duration._
+          implicit val sttpBackend: SttpBackend[Future, Nothing] = AkkaHttpBackend()
+
+          implicit val timeout = Timeout(30 seconds)
+          val provider = new EarnDotComFeeProvider()
+          println("earn.com livenet fees: " + Await.result(provider.getFeerates, 10 seconds))
+        }*/
+
 
     val nodeId = "03933884aaf1d6b108397e5efe5c86bcf2d8ca8d2f700eda99db9214fc2712b134"
 
     val config = ConfigFactory.parseString(
       s"""
-        |eclair {
-        |  chain = "testnet"
-        |  local-features = "02" // data loss protect, and nothing else !
-        |  override-features = [
-        |    {
-        |      nodeid = ${nodeId},
-        |      global-features = "",
-        |      local-features = "808a" // initial_routing_sync + option_data_loss_protect + option_channel_range_queries + option_channel_range_queries_ex
-        |    }
-        |  ]
-        |
-        |  router.path-finding.max-route-length = 4
-        |  router.channel-exclude-duration = 10 seconds // 60s default is too long
-        |  router.randomize-route-selection = false
-        |
-        |  watcher-type = "electrum"
-        |
-        |  min-feerate = 3
-        |
-        |  on-chain-fees {
-        |    max-feerate-mismatch = 100 // large tolerance
-        |  }
-        |
-        |  max-reconnect-interval = 20 seconds
-        |}
-        |akka {
-        |  loggers = ["akka.event.slf4j.Slf4jLogger"]
-        |  loglevel = "DEBUG"
-        |  # ActorSystem start-up can be slow on overloaded phone, let's increase creation timeout for loggers actors.
-        |  logger-startup-timeout = 10s
-        |  log-dead-letters = "off"
-        |  io {
-        |    tcp {
-        |      max-received-message-size = 65535b
-        |    }
-        |  }
-        |}
-        |
+         |eclair {
+         |  chain = "testnet"
+         |  local-features = "02" // data loss protect, and nothing else !
+         |  override-features = [
+         |    {
+         |      nodeid = ${nodeId},
+         |      global-features = "",
+         |      local-features = "808a" // initial_routing_sync + option_data_loss_protect + option_channel_range_queries + option_channel_range_queries_ex
+         |    }
+         |  ]
+         |
+         |  router.path-finding.max-route-length = 4
+         |  router.channel-exclude-duration = 10 seconds // 60s default is too long
+         |  router.randomize-route-selection = false
+         |
+         |  watcher-type = "electrum"
+         |
+         |  min-feerate = 3
+         |
+         |  on-chain-fees {
+         |    max-feerate-mismatch = 100 // large tolerance
+         |  }
+         |
+         |  max-reconnect-interval = 20 seconds
+         |}
+         |akka {
+         |  loggers = ["akka.event.slf4j.Slf4jLogger"]
+         |  loglevel = "DEBUG"
+         |  # ActorSystem start-up can be slow on overloaded phone, let's increase creation timeout for loggers actors.
+         |  logger-startup-timeout = 10s
+         |  log-dead-letters = "off"
+         |  io {
+         |    tcp {
+         |      max-received-message-size = 65535b
+         |    }
+         |  }
+         |  actor{
+         |    default-dispatcher{
+         |
+         |    }
+         |  }
+         |}
+         |
       """.stripMargin('|'))
     log("Creating dataDir ")
     val dataDir = Files.createTempDirectory("eclair")
@@ -111,7 +123,7 @@ object InitEclair{
     log(s"Created actor system ${system}")
 
     //SQLiteJDBCLoader.initialize()
-    if ("The Android Project".equals(System.getProperty("java.vm.vendor"))){
+    if ("The Android Project".equals(System.getProperty("java.vm.vendor"))) {
       log("Running on 'mobile / graal boostrap' environment, loading libraries using java.library.path")
       System.loadLibrary("secp256k1")
       log("Loaded libsecp256k1")
@@ -127,8 +139,6 @@ object InitEclair{
     log(s"Loaded configuration ${loadedConfig}")
     val setup = new Setup(dataDir.toFile, loadedConfig, Option.apply(seed), Option.empty)(system)
     log(s"Setup eclair done ${setup}")
-
-
 
 
     val host = "endurance.acinq.co"
@@ -156,10 +166,18 @@ object InitEclair{
     log(s"Got Kit ${kit}")
     val electrumWallet = kit.wallet.asInstanceOf[ElectrumEclairWallet]
     log(s"Got Wallet ${electrumWallet}")
+
+
+    log("Will try to change server")
+    val nodeURI = NodeURI.parse("03933884aaf1d6b108397e5efe5c86bcf2d8ca8d2f700eda99db9214fc2712b134@34.250.234.192:9735")
+    kit.switchboard.tell(Connect.apply(nodeURI), Actor.noSender)
+    log("Asked to updated server")
   }
 
-  def log(msg: String): Unit ={
+  def log(msg: String): Unit = {
     println(msg)
+  }
+/*
     val currentThread = CurrentIsolate.getCurrentThread
     /* Call a C function directly. */
     if (OS.getCurrent ne OS.WINDOWS) {
@@ -169,7 +187,7 @@ object InitEclair{
        */
       CInterfaceTutorial.printingInC(currentThread, CTypeConversion.toCString(msg).get())
     }
-  }
+  }*/
 }
 
 import akka.actor.UntypedActor

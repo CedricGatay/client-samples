@@ -42,8 +42,9 @@ class HelloFX {
 object HelloFX {
   val instance = new HelloFX()
   def main(args: Array[String]): Unit = {
-    instance.init()
+    InitEclair.init()
+    /*instance.init()
     Thread.sleep(10 * 1000)
-    instance.stop()
+    instance.stop()*/
   }
 }

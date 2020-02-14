@@ -6,9 +6,9 @@
   "name":"akka.actor.ActorCell",
   "allDeclaredFields":true,
   "fields":[
-    {"name":"akka$actor$dungeon$Children$$_childrenRefsDoNotCallMeDirectly", "allowUnsafeAccess":true}, 
-    {"name":"akka$actor$dungeon$Children$$_functionRefsDoNotCallMeDirectly", "allowUnsafeAccess":true}, 
-    {"name":"akka$actor$dungeon$Children$$_nextNameDoNotCallMeDirectly", "allowUnsafeAccess":true}, 
+    {"name":"akka$actor$dungeon$Children$$_childrenRefsDoNotCallMeDirectly", "allowUnsafeAccess":true},
+    {"name":"akka$actor$dungeon$Children$$_functionRefsDoNotCallMeDirectly", "allowUnsafeAccess":true},
+    {"name":"akka$actor$dungeon$Children$$_nextNameDoNotCallMeDirectly", "allowUnsafeAccess":true},
     {"name":"akka$actor$dungeon$Dispatch$$_mailboxDoNotCallMeDirectly", "allowUnsafeAccess":true}
   ]
 },
@@ -43,7 +43,7 @@
 {
   "name":"akka.actor.RepointableActorRef",
   "fields":[
-    {"name":"_cellDoNotCallMeDirectly", "allowUnsafeAccess":true}, 
+    {"name":"_cellDoNotCallMeDirectly", "allowUnsafeAccess":true},
     {"name":"_lookupDoNotCallMeDirectly", "allowUnsafeAccess":true}
   ]
 },
@@ -77,14 +77,14 @@
 {
   "name":"akka.dispatch.Mailbox",
   "fields":[
-    {"name":"_statusDoNotCallMeDirectly", "allowUnsafeAccess":true}, 
+    {"name":"_statusDoNotCallMeDirectly", "allowUnsafeAccess":true},
     {"name":"_systemQueueDoNotCallMeDirectly", "allowUnsafeAccess":true}
   ]
 },
 {
   "name":"akka.dispatch.MessageDispatcher",
   "fields":[
-    {"name":"_inhabitantsDoNotCallMeDirectly", "allowUnsafeAccess":true}, 
+    {"name":"_inhabitantsDoNotCallMeDirectly", "allowUnsafeAccess":true},
     {"name":"_shutdownScheduleDoNotCallMeDirectly", "allowUnsafeAccess":true}
   ]
 },
@@ -111,9 +111,9 @@
 {
   "name":"akka.dispatch.forkjoin.ForkJoinPool",
   "fields":[
-    {"name":"ctl", "allowUnsafeAccess":true}, 
-    {"name":"indexSeed", "allowUnsafeAccess":true}, 
-    {"name":"plock", "allowUnsafeAccess":true}, 
+    {"name":"ctl", "allowUnsafeAccess":true},
+    {"name":"indexSeed", "allowUnsafeAccess":true},
+    {"name":"plock", "allowUnsafeAccess":true},
     {"name":"stealCount", "allowUnsafeAccess":true}
   ]
 },
@@ -171,7 +171,7 @@
 {
   "name":"akka.pattern.PromiseActorRef",
   "fields":[
-    {"name":"_stateDoNotCallMeDirectly", "allowUnsafeAccess":true}, 
+    {"name":"_stateDoNotCallMeDirectly", "allowUnsafeAccess":true},
     {"name":"_watchedByDoNotCallMeDirectly", "allowUnsafeAccess":true}
   ]
 },
@@ -231,15 +231,15 @@
 {
   "name":"fr.acinq.eclair.blockchain.electrum.ElectrumClient$ActorHandler",
   "methods":[
-    {"name":"channelActive","parameterTypes":["io.netty.channel.ChannelHandlerContext"] }, 
+    {"name":"channelActive","parameterTypes":["io.netty.channel.ChannelHandlerContext"] },
     {"name":"channelRead","parameterTypes":["io.netty.channel.ChannelHandlerContext","java.lang.Object"] }
   ]
 },
 {
   "name":"fr.acinq.eclair.blockchain.electrum.ElectrumClient$ExceptionHandler",
   "methods":[
-    {"name":"connect","parameterTypes":["io.netty.channel.ChannelHandlerContext","java.net.SocketAddress","java.net.SocketAddress","io.netty.channel.ChannelPromise"] }, 
-    {"name":"exceptionCaught","parameterTypes":["io.netty.channel.ChannelHandlerContext","java.lang.Throwable"] }, 
+    {"name":"connect","parameterTypes":["io.netty.channel.ChannelHandlerContext","java.net.SocketAddress","java.net.SocketAddress","io.netty.channel.ChannelPromise"] },
+    {"name":"exceptionCaught","parameterTypes":["io.netty.channel.ChannelHandlerContext","java.lang.Throwable"] },
     {"name":"write","parameterTypes":["io.netty.channel.ChannelHandlerContext","java.lang.Object","io.netty.channel.ChannelPromise"] }
   ]
 },
@@ -270,11 +270,11 @@
 {
   "name":"io.netty.channel.ChannelDuplexHandler",
   "methods":[
-    {"name":"bind","parameterTypes":["io.netty.channel.ChannelHandlerContext","java.net.SocketAddress","io.netty.channel.ChannelPromise"] }, 
-    {"name":"close","parameterTypes":["io.netty.channel.ChannelHandlerContext","io.netty.channel.ChannelPromise"] }, 
-    {"name":"deregister","parameterTypes":["io.netty.channel.ChannelHandlerContext","io.netty.channel.ChannelPromise"] }, 
-    {"name":"disconnect","parameterTypes":["io.netty.channel.ChannelHandlerContext","io.netty.channel.ChannelPromise"] }, 
-    {"name":"flush","parameterTypes":["io.netty.channel.ChannelHandlerContext"] }, 
+    {"name":"bind","parameterTypes":["io.netty.channel.ChannelHandlerContext","java.net.SocketAddress","io.netty.channel.ChannelPromise"] },
+    {"name":"close","parameterTypes":["io.netty.channel.ChannelHandlerContext","io.netty.channel.ChannelPromise"] },
+    {"name":"deregister","parameterTypes":["io.netty.channel.ChannelHandlerContext","io.netty.channel.ChannelPromise"] },
+    {"name":"disconnect","parameterTypes":["io.netty.channel.ChannelHandlerContext","io.netty.channel.ChannelPromise"] },
+    {"name":"flush","parameterTypes":["io.netty.channel.ChannelHandlerContext"] },
     {"name":"read","parameterTypes":["io.netty.channel.ChannelHandlerContext"] }
   ]
 },
@@ -285,75 +285,75 @@
 {
   "name":"io.netty.channel.ChannelInboundHandlerAdapter",
   "methods":[
-    {"name":"channelActive","parameterTypes":["io.netty.channel.ChannelHandlerContext"] }, 
-    {"name":"channelInactive","parameterTypes":["io.netty.channel.ChannelHandlerContext"] }, 
-    {"name":"channelRead","parameterTypes":["io.netty.channel.ChannelHandlerContext","java.lang.Object"] }, 
-    {"name":"channelReadComplete","parameterTypes":["io.netty.channel.ChannelHandlerContext"] }, 
-    {"name":"channelRegistered","parameterTypes":["io.netty.channel.ChannelHandlerContext"] }, 
-    {"name":"channelUnregistered","parameterTypes":["io.netty.channel.ChannelHandlerContext"] }, 
-    {"name":"channelWritabilityChanged","parameterTypes":["io.netty.channel.ChannelHandlerContext"] }, 
-    {"name":"exceptionCaught","parameterTypes":["io.netty.channel.ChannelHandlerContext","java.lang.Throwable"] }, 
+    {"name":"channelActive","parameterTypes":["io.netty.channel.ChannelHandlerContext"] },
+    {"name":"channelInactive","parameterTypes":["io.netty.channel.ChannelHandlerContext"] },
+    {"name":"channelRead","parameterTypes":["io.netty.channel.ChannelHandlerContext","java.lang.Object"] },
+    {"name":"channelReadComplete","parameterTypes":["io.netty.channel.ChannelHandlerContext"] },
+    {"name":"channelRegistered","parameterTypes":["io.netty.channel.ChannelHandlerContext"] },
+    {"name":"channelUnregistered","parameterTypes":["io.netty.channel.ChannelHandlerContext"] },
+    {"name":"channelWritabilityChanged","parameterTypes":["io.netty.channel.ChannelHandlerContext"] },
+    {"name":"exceptionCaught","parameterTypes":["io.netty.channel.ChannelHandlerContext","java.lang.Throwable"] },
     {"name":"userEventTriggered","parameterTypes":["io.netty.channel.ChannelHandlerContext","java.lang.Object"] }
   ]
 },
 {
   "name":"io.netty.channel.ChannelInitializer",
   "methods":[
-    {"name":"channelRegistered","parameterTypes":["io.netty.channel.ChannelHandlerContext"] }, 
+    {"name":"channelRegistered","parameterTypes":["io.netty.channel.ChannelHandlerContext"] },
     {"name":"exceptionCaught","parameterTypes":["io.netty.channel.ChannelHandlerContext","java.lang.Throwable"] }
   ]
 },
 {
   "name":"io.netty.channel.ChannelOutboundHandlerAdapter",
   "methods":[
-    {"name":"bind","parameterTypes":["io.netty.channel.ChannelHandlerContext","java.net.SocketAddress","io.netty.channel.ChannelPromise"] }, 
-    {"name":"close","parameterTypes":["io.netty.channel.ChannelHandlerContext","io.netty.channel.ChannelPromise"] }, 
-    {"name":"connect","parameterTypes":["io.netty.channel.ChannelHandlerContext","java.net.SocketAddress","java.net.SocketAddress","io.netty.channel.ChannelPromise"] }, 
-    {"name":"deregister","parameterTypes":["io.netty.channel.ChannelHandlerContext","io.netty.channel.ChannelPromise"] }, 
-    {"name":"disconnect","parameterTypes":["io.netty.channel.ChannelHandlerContext","io.netty.channel.ChannelPromise"] }, 
-    {"name":"flush","parameterTypes":["io.netty.channel.ChannelHandlerContext"] }, 
+    {"name":"bind","parameterTypes":["io.netty.channel.ChannelHandlerContext","java.net.SocketAddress","io.netty.channel.ChannelPromise"] },
+    {"name":"close","parameterTypes":["io.netty.channel.ChannelHandlerContext","io.netty.channel.ChannelPromise"] },
+    {"name":"connect","parameterTypes":["io.netty.channel.ChannelHandlerContext","java.net.SocketAddress","java.net.SocketAddress","io.netty.channel.ChannelPromise"] },
+    {"name":"deregister","parameterTypes":["io.netty.channel.ChannelHandlerContext","io.netty.channel.ChannelPromise"] },
+    {"name":"disconnect","parameterTypes":["io.netty.channel.ChannelHandlerContext","io.netty.channel.ChannelPromise"] },
+    {"name":"flush","parameterTypes":["io.netty.channel.ChannelHandlerContext"] },
     {"name":"read","parameterTypes":["io.netty.channel.ChannelHandlerContext"] }
   ]
 },
 {
   "name":"io.netty.channel.DefaultChannelPipeline$HeadContext",
   "methods":[
-    {"name":"bind","parameterTypes":["io.netty.channel.ChannelHandlerContext","java.net.SocketAddress","io.netty.channel.ChannelPromise"] }, 
-    {"name":"channelActive","parameterTypes":["io.netty.channel.ChannelHandlerContext"] }, 
-    {"name":"channelInactive","parameterTypes":["io.netty.channel.ChannelHandlerContext"] }, 
-    {"name":"channelRead","parameterTypes":["io.netty.channel.ChannelHandlerContext","java.lang.Object"] }, 
-    {"name":"channelReadComplete","parameterTypes":["io.netty.channel.ChannelHandlerContext"] }, 
-    {"name":"channelRegistered","parameterTypes":["io.netty.channel.ChannelHandlerContext"] }, 
-    {"name":"channelUnregistered","parameterTypes":["io.netty.channel.ChannelHandlerContext"] }, 
-    {"name":"channelWritabilityChanged","parameterTypes":["io.netty.channel.ChannelHandlerContext"] }, 
-    {"name":"close","parameterTypes":["io.netty.channel.ChannelHandlerContext","io.netty.channel.ChannelPromise"] }, 
-    {"name":"connect","parameterTypes":["io.netty.channel.ChannelHandlerContext","java.net.SocketAddress","java.net.SocketAddress","io.netty.channel.ChannelPromise"] }, 
-    {"name":"deregister","parameterTypes":["io.netty.channel.ChannelHandlerContext","io.netty.channel.ChannelPromise"] }, 
-    {"name":"disconnect","parameterTypes":["io.netty.channel.ChannelHandlerContext","io.netty.channel.ChannelPromise"] }, 
-    {"name":"exceptionCaught","parameterTypes":["io.netty.channel.ChannelHandlerContext","java.lang.Throwable"] }, 
-    {"name":"flush","parameterTypes":["io.netty.channel.ChannelHandlerContext"] }, 
-    {"name":"read","parameterTypes":["io.netty.channel.ChannelHandlerContext"] }, 
-    {"name":"userEventTriggered","parameterTypes":["io.netty.channel.ChannelHandlerContext","java.lang.Object"] }, 
+    {"name":"bind","parameterTypes":["io.netty.channel.ChannelHandlerContext","java.net.SocketAddress","io.netty.channel.ChannelPromise"] },
+    {"name":"channelActive","parameterTypes":["io.netty.channel.ChannelHandlerContext"] },
+    {"name":"channelInactive","parameterTypes":["io.netty.channel.ChannelHandlerContext"] },
+    {"name":"channelRead","parameterTypes":["io.netty.channel.ChannelHandlerContext","java.lang.Object"] },
+    {"name":"channelReadComplete","parameterTypes":["io.netty.channel.ChannelHandlerContext"] },
+    {"name":"channelRegistered","parameterTypes":["io.netty.channel.ChannelHandlerContext"] },
+    {"name":"channelUnregistered","parameterTypes":["io.netty.channel.ChannelHandlerContext"] },
+    {"name":"channelWritabilityChanged","parameterTypes":["io.netty.channel.ChannelHandlerContext"] },
+    {"name":"close","parameterTypes":["io.netty.channel.ChannelHandlerContext","io.netty.channel.ChannelPromise"] },
+    {"name":"connect","parameterTypes":["io.netty.channel.ChannelHandlerContext","java.net.SocketAddress","java.net.SocketAddress","io.netty.channel.ChannelPromise"] },
+    {"name":"deregister","parameterTypes":["io.netty.channel.ChannelHandlerContext","io.netty.channel.ChannelPromise"] },
+    {"name":"disconnect","parameterTypes":["io.netty.channel.ChannelHandlerContext","io.netty.channel.ChannelPromise"] },
+    {"name":"exceptionCaught","parameterTypes":["io.netty.channel.ChannelHandlerContext","java.lang.Throwable"] },
+    {"name":"flush","parameterTypes":["io.netty.channel.ChannelHandlerContext"] },
+    {"name":"read","parameterTypes":["io.netty.channel.ChannelHandlerContext"] },
+    {"name":"userEventTriggered","parameterTypes":["io.netty.channel.ChannelHandlerContext","java.lang.Object"] },
     {"name":"write","parameterTypes":["io.netty.channel.ChannelHandlerContext","java.lang.Object","io.netty.channel.ChannelPromise"] }
   ]
 },
 {
   "name":"io.netty.channel.DefaultChannelPipeline$TailContext",
   "methods":[
-    {"name":"channelActive","parameterTypes":["io.netty.channel.ChannelHandlerContext"] }, 
-    {"name":"channelActive","parameterTypes":["io.netty.channel.ChannelHandlerContext"] }, 
-    {"name":"channelInactive","parameterTypes":["io.netty.channel.ChannelHandlerContext"] }, 
-    {"name":"channelInactive","parameterTypes":["io.netty.channel.ChannelHandlerContext"] }, 
-    {"name":"channelRead","parameterTypes":["io.netty.channel.ChannelHandlerContext","java.lang.Object"] }, 
-    {"name":"channelReadComplete","parameterTypes":["io.netty.channel.ChannelHandlerContext"] }, 
-    {"name":"channelRegistered","parameterTypes":["io.netty.channel.ChannelHandlerContext"] }, 
-    {"name":"channelRegistered","parameterTypes":["io.netty.channel.ChannelHandlerContext"] }, 
-    {"name":"channelUnregistered","parameterTypes":["io.netty.channel.ChannelHandlerContext"] }, 
-    {"name":"channelWritabilityChanged","parameterTypes":["io.netty.channel.ChannelHandlerContext"] }, 
-    {"name":"channelWritabilityChanged","parameterTypes":["io.netty.channel.ChannelHandlerContext"] }, 
-    {"name":"exceptionCaught","parameterTypes":["io.netty.channel.ChannelHandlerContext","java.lang.Throwable"] }, 
-    {"name":"exceptionCaught","parameterTypes":["io.netty.channel.ChannelHandlerContext","java.lang.Throwable"] }, 
-    {"name":"userEventTriggered","parameterTypes":["io.netty.channel.ChannelHandlerContext","java.lang.Object"] }, 
+    {"name":"channelActive","parameterTypes":["io.netty.channel.ChannelHandlerContext"] },
+    {"name":"channelActive","parameterTypes":["io.netty.channel.ChannelHandlerContext"] },
+    {"name":"channelInactive","parameterTypes":["io.netty.channel.ChannelHandlerContext"] },
+    {"name":"channelInactive","parameterTypes":["io.netty.channel.ChannelHandlerContext"] },
+    {"name":"channelRead","parameterTypes":["io.netty.channel.ChannelHandlerContext","java.lang.Object"] },
+    {"name":"channelReadComplete","parameterTypes":["io.netty.channel.ChannelHandlerContext"] },
+    {"name":"channelRegistered","parameterTypes":["io.netty.channel.ChannelHandlerContext"] },
+    {"name":"channelRegistered","parameterTypes":["io.netty.channel.ChannelHandlerContext"] },
+    {"name":"channelUnregistered","parameterTypes":["io.netty.channel.ChannelHandlerContext"] },
+    {"name":"channelWritabilityChanged","parameterTypes":["io.netty.channel.ChannelHandlerContext"] },
+    {"name":"channelWritabilityChanged","parameterTypes":["io.netty.channel.ChannelHandlerContext"] },
+    {"name":"exceptionCaught","parameterTypes":["io.netty.channel.ChannelHandlerContext","java.lang.Throwable"] },
+    {"name":"exceptionCaught","parameterTypes":["io.netty.channel.ChannelHandlerContext","java.lang.Throwable"] },
+    {"name":"userEventTriggered","parameterTypes":["io.netty.channel.ChannelHandlerContext","java.lang.Object"] },
     {"name":"userEventTriggered","parameterTypes":["io.netty.channel.ChannelHandlerContext","java.lang.Object"] }
   ]
 },
@@ -364,9 +364,9 @@
 {
   "name":"io.netty.handler.codec.ByteToMessageDecoder",
   "methods":[
-    {"name":"channelInactive","parameterTypes":["io.netty.channel.ChannelHandlerContext"] }, 
-    {"name":"channelRead","parameterTypes":["io.netty.channel.ChannelHandlerContext","java.lang.Object"] }, 
-    {"name":"channelReadComplete","parameterTypes":["io.netty.channel.ChannelHandlerContext"] }, 
+    {"name":"channelInactive","parameterTypes":["io.netty.channel.ChannelHandlerContext"] },
+    {"name":"channelRead","parameterTypes":["io.netty.channel.ChannelHandlerContext","java.lang.Object"] },
+    {"name":"channelReadComplete","parameterTypes":["io.netty.channel.ChannelHandlerContext"] },
     {"name":"userEventTriggered","parameterTypes":["io.netty.channel.ChannelHandlerContext","java.lang.Object"] }
   ]
 },
@@ -383,17 +383,17 @@
 {
   "name":"io.netty.handler.ssl.SslHandler",
   "methods":[
-    {"name":"bind","parameterTypes":["io.netty.channel.ChannelHandlerContext","java.net.SocketAddress","io.netty.channel.ChannelPromise"] }, 
-    {"name":"channelActive","parameterTypes":["io.netty.channel.ChannelHandlerContext"] }, 
-    {"name":"channelInactive","parameterTypes":["io.netty.channel.ChannelHandlerContext"] }, 
-    {"name":"channelReadComplete","parameterTypes":["io.netty.channel.ChannelHandlerContext"] }, 
-    {"name":"close","parameterTypes":["io.netty.channel.ChannelHandlerContext","io.netty.channel.ChannelPromise"] }, 
-    {"name":"connect","parameterTypes":["io.netty.channel.ChannelHandlerContext","java.net.SocketAddress","java.net.SocketAddress","io.netty.channel.ChannelPromise"] }, 
-    {"name":"deregister","parameterTypes":["io.netty.channel.ChannelHandlerContext","io.netty.channel.ChannelPromise"] }, 
-    {"name":"disconnect","parameterTypes":["io.netty.channel.ChannelHandlerContext","io.netty.channel.ChannelPromise"] }, 
-    {"name":"exceptionCaught","parameterTypes":["io.netty.channel.ChannelHandlerContext","java.lang.Throwable"] }, 
-    {"name":"flush","parameterTypes":["io.netty.channel.ChannelHandlerContext"] }, 
-    {"name":"read","parameterTypes":["io.netty.channel.ChannelHandlerContext"] }, 
+    {"name":"bind","parameterTypes":["io.netty.channel.ChannelHandlerContext","java.net.SocketAddress","io.netty.channel.ChannelPromise"] },
+    {"name":"channelActive","parameterTypes":["io.netty.channel.ChannelHandlerContext"] },
+    {"name":"channelInactive","parameterTypes":["io.netty.channel.ChannelHandlerContext"] },
+    {"name":"channelReadComplete","parameterTypes":["io.netty.channel.ChannelHandlerContext"] },
+    {"name":"close","parameterTypes":["io.netty.channel.ChannelHandlerContext","io.netty.channel.ChannelPromise"] },
+    {"name":"connect","parameterTypes":["io.netty.channel.ChannelHandlerContext","java.net.SocketAddress","java.net.SocketAddress","io.netty.channel.ChannelPromise"] },
+    {"name":"deregister","parameterTypes":["io.netty.channel.ChannelHandlerContext","io.netty.channel.ChannelPromise"] },
+    {"name":"disconnect","parameterTypes":["io.netty.channel.ChannelHandlerContext","io.netty.channel.ChannelPromise"] },
+    {"name":"exceptionCaught","parameterTypes":["io.netty.channel.ChannelHandlerContext","java.lang.Throwable"] },
+    {"name":"flush","parameterTypes":["io.netty.channel.ChannelHandlerContext"] },
+    {"name":"read","parameterTypes":["io.netty.channel.ChannelHandlerContext"] },
     {"name":"write","parameterTypes":["io.netty.channel.ChannelHandlerContext","java.lang.Object","io.netty.channel.ChannelPromise"] }
   ]
 },
@@ -447,7 +447,7 @@
 {
   "name":"java.lang.management.RuntimeMXBean",
   "methods":[
-    {"name":"getInputArguments","parameterTypes":[] }, 
+    {"name":"getInputArguments","parameterTypes":[] },
     {"name":"getName","parameterTypes":[] }
   ]
 },
@@ -486,15 +486,15 @@
   "name":"sun.misc.Unsafe",
   "allDeclaredFields":true,
   "methods":[
-    {"name":"copyMemory","parameterTypes":["java.lang.Object","long","java.lang.Object","long","long"] }, 
-    {"name":"getAndSetObject","parameterTypes":["java.lang.Object","long","java.lang.Object"] }, 
+    {"name":"copyMemory","parameterTypes":["java.lang.Object","long","java.lang.Object","long","long"] },
+    {"name":"getAndSetObject","parameterTypes":["java.lang.Object","long","java.lang.Object"] },
     {"name":"invokeCleaner","parameterTypes":["java.nio.ByteBuffer"] }
   ]
 },
 {
   "name":"sun.nio.ch.SelectorImpl",
   "fields":[
-    {"name":"publicSelectedKeys", "allowUnsafeAccess":true}, 
+    {"name":"publicSelectedKeys", "allowUnsafeAccess":true},
     {"name":"selectedKeys", "allowUnsafeAccess":true}
   ]
 }

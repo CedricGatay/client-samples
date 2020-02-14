@@ -30,7 +30,7 @@
 #include <windows.h>
 #endif
 #include "mydata.h"
-#include "libcinterfacetutorial.h"
+//#include "libcinterfacetutorial.h"
 
 /* C function that gets passed to Java as a function pointer. */
 void c_print(void *thread, char* cstr) {

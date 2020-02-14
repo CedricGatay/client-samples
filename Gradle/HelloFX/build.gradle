@@ -66,10 +66,11 @@ gluonClient {
    //graalPath = "/Users/cgatay/Documents/work/acinq/graalvm-ce-java8-20.0.0-dev/Contents/Home"
    //graalLibsPath = "/Users/cgatay/Documents/work/acinq/graalvm-unknown-java11-19.3.0-dev/Contents/Home"
     //get graal from https://download2.gluonhq.com/subtrate/graalvm/graalvm-svm-darwin-20.0.0-ea+22.zip
-   graalLibsPath = "/Users/cgatay/Documents/work/acinq/graalvm-svm-darwin-20.0.0-ea+22"
+   //graalLibsPath = "/Users/cgatay/Documents/work/acinq/graalvm-svm-darwin-20.0.0-ea+22"
+   graalLibsPath = "/Users/cgatay/Documents/work/acinq/graalvm-svm-darwin-20.0.0-ea+21"
     //graalLibsPath = "/Users/cgatay/.sdkman/candidates/java/19.3.1.r11-grl/"
-    //llcPath = "/Users/cgatay/Documents/work/acinq/graalvm-unknown-java11-19.3.0-dev/Contents/Home/bin/llc"
-    //llcPath = "/Users/cgatay/Documents/work/acinq/clang+llvm-9.0.0-x86_64-darwin-apple/bin/llc"
+    llcPath = "/Users/cgatay/Documents/work/acinq/graalvm-unknown-java11-19.3.0-dev/Contents/Home/bin/llc"
+    //llcPath = "/Users/cgatay/Documents/work/acinq/clang+llvm-6.0.0-x86_64-apple-darwin/bin/llc"
    buildStaticLib = true
     nativeBuildOptions = [
 //            "--debug-attach" , // remote debug on :8000
@@ -118,10 +119,10 @@ gluonClient {
             "--initialize-at-run-time=io.netty.handler.ssl" ,
 //            "<!-- ZMQ -->",
             "--initialize-at-run-time=zmq.util.Utils",
+            "--initialize-at-build-time=akka.serialization.BooleanSerializer",
             "--no-server" ,
             "--no-fallback" ,
             "--allow-incomplete-classpath",
-            "-H:LLVMBatchesPerThread=-1"
     ]
 }
 
