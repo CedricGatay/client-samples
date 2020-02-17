@@ -45,6 +45,8 @@ dependencies {
         exclude module: 'graal-akka-slf4j_'+ scala_version
         exclude module: 'graal-akka-stream_'+ scala_version*/
     }
+    implementation("org.json4s:json4s-jackson_${scala_version}:3.6.0")
+    testImplementation("org.scalatest:scalatest_${scala_version}:3.1.0")
 }
 
 gluonClient {
@@ -79,6 +81,7 @@ gluonClient {
             "-H:+ReportUnsupportedElementsAtRuntime",
             "-H:+ReportExceptionStackTraces",
             "-H:+TraceClassInitialization",
+            "-H:CLibraryPath=/Users/cgatay/Documents/work/acinq/client-samples/Gradle/HelloFX/src/main/resources/hellofx/native",
             "--report-unsupported-elements-at-runtime" ,
             "--initialize-at-build-time",
 //            "        <!-- sqlite -->",
@@ -122,6 +125,8 @@ gluonClient {
             "--initialize-at-build-time=akka.serialization.BooleanSerializer",
             "--no-server" ,
             "--no-fallback" ,
+            "--initialize-at-build-time=org.json4s",
+            "--initialize-at-build-time=com.fasterxml.jackson",
             "--allow-incomplete-classpath",
     ]
 }

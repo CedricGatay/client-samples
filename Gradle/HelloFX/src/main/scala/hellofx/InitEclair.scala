@@ -5,9 +5,9 @@ import java.net.{HttpURLConnection, URL}
 import java.nio.file.Files
 
 import akka.actor.{Actor, ActorSystem, Props}
-import com.oracle.svm.core.OS
-import com.typesafe.config.ConfigFactory
-import fr.acinq.eclair.Setup
+import com.oracle.svm.core.{OS, SubstrateUtil}
+import com.typesafe.config.{ConfigFactory, Optional}
+import fr.acinq.eclair.{Kit, Setup}
 import fr.acinq.eclair.blockchain.electrum.ElectrumEclairWallet
 import fr.acinq.eclair.channel.ChannelEvent
 import fr.acinq.eclair.db.BackupEvent
@@ -16,6 +16,7 @@ import fr.acinq.eclair.io.{NodeURI, Peer}
 import fr.acinq.eclair.payment.PaymentEvent
 import fr.acinq.eclair.router.SyncProgress
 import fr.acinq.eclair.wire.NodeAddress
+import hellofx.InitEclair.{kit, log}
 import org.graalvm.nativeimage.CurrentIsolate
 import org.graalvm.nativeimage.c.`type`.CTypeConversion
 import scodec.bits.ByteVector
@@ -23,33 +24,39 @@ import scodec.bits.ByteVector
 import scala.collection.mutable.ArrayBuffer
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
+import org.json4s._
+import org.json4s.jackson.JsonMethods
+
 
 class InitEclair {
 
 }
 
 object InitEclair {
+  var kit: Option[Kit] = None
+
   def init(): Unit = {
     log(s"java.vm.vendor ${System.getProperty("java.vm.vendor")}")
-   // log(ConfigFactory.defaultReference().getConfig("akka").getConfig("actor").getConfig("default-dispatcher").toString)
-      log("Doing a simple https connection to earn.com")
-      val url = new URL("https://bitcoinfees.earn.com/api/v1/fees/list")
-      val con = url.openConnection.asInstanceOf[HttpURLConnection]
-      con.setRequestMethod("GET")
-      val status = con.getResponseCode
-      log(s"Response ${status}")
+    // log(ConfigFactory.defaultReference().getConfig("akka").getConfig("actor").getConfig("default-dispatcher").toString)
+    log("Doing a simple https connection to earn.com")
+    val url = new URL("https://bitcoinfees.earn.com/api/v1/fees/list")
+    val con = url.openConnection.asInstanceOf[HttpURLConnection]
+    con.setRequestMethod("GET")
+    val status = con.getResponseCode
+    log(s"Response ${status}")
 
-      import java.io.BufferedReader
-      val in = new BufferedReader(new InputStreamReader(con.getInputStream))
-      val lines = new ArrayBuffer[String]()
-      var line: String = null
-      while ( {
-        line = in.readLine; line != null
-      }) {
-        lines.append(line)
-      }
-      con.disconnect
-      log(s"${lines}")
+    import java.io.BufferedReader
+    val in = new BufferedReader(new InputStreamReader(con.getInputStream))
+    val lines = new ArrayBuffer[String]()
+    var line: String = null
+    while ( {
+      line = in.readLine;
+      line != null
+    }) {
+      lines.append(line)
+    }
+    con.disconnect
+    log(s"${lines}")
 
     /*
         {
@@ -162,33 +169,74 @@ object InitEclair {
     log("Bootstraping setup")
     val fKit = setup.bootstrap
     log(s"Bootstrapped Future ${fKit}")
-    val kit = Await.result(fKit, Duration.create(60, "seconds"))
+    kit = Some(Await.result(fKit, Duration.create(60, "seconds")))
     log(s"Got Kit ${kit}")
-    val electrumWallet = kit.wallet.asInstanceOf[ElectrumEclairWallet]
+    val electrumWallet = kit.get.wallet.asInstanceOf[ElectrumEclairWallet]
     log(s"Got Wallet ${electrumWallet}")
 
+    log(s"Trying dummy switchServer")
+    EclairMessage(Some(SwitchServer("http://this.is.a.test")))()
+    log(s"Dummy switchServer called")
 
-    log("Will try to change server")
-    val nodeURI = NodeURI.parse("03933884aaf1d6b108397e5efe5c86bcf2d8ca8d2f700eda99db9214fc2712b134@34.250.234.192:9735")
-    kit.switchboard.tell(Connect.apply(nodeURI), Actor.noSender)
-    log("Asked to updated server")
+    log(s"Trying dummy switchServer parsing")
+    val parsed = InitEclair.parseMessage(
+      """{"switchServer":{"uri":"this.is.a.test"}}""".stripMargin)
+    log(s"Dummy switchServer parsed ${parsed}")
   }
 
   def log(msg: String): Unit = {
-    println(msg)
-  }
-/*
-    val currentThread = CurrentIsolate.getCurrentThread
-    /* Call a C function directly. */
-    if (OS.getCurrent ne OS.WINDOWS) {
-      /*
+    println(s"⚡ ${msg}")
+    if (false) {
+      val currentThread = CurrentIsolate.getCurrentThread
+      /* Call a C function directly. */
+      if (OS.getCurrent ne OS.WINDOWS) {
+        /*
        * Calling C functions provided by the main executable from a shared library produced by
        * the native-image is not yet supported on Windows.
        */
-      CInterfaceTutorial.printingInC(currentThread, CTypeConversion.toCString(msg).get())
+        CInterfaceTutorial.printingInC(currentThread, CTypeConversion.toCString(msg).get())
+      }
     }
-  }*/
+  }
+
+  def message(msg: String): Unit = {
+    log(s"Received message ${msg}")
+    val maybeMessage = parseMessage(msg)
+    log(s"MaybeMessage ${maybeMessage}")
+    maybeMessage.foreach { m => m() }
+    log("Message handling done")
+  }
+
+  implicit val formats = DefaultFormats
+
+  def parseMessage(msg: String): Option[EclairMessage] = {
+    JsonMethods.parse(msg).extractOpt[EclairMessage]
+  }
 }
+
+
+case class EclairMessage(
+                          switchServer: Option[SwitchServer] = None
+                        ) {
+  def apply(): Unit = {
+    log(s"Applying SwitchServer ${switchServer}")
+    if (!switchServer.isDefined) {
+      log("No switchServer defined")
+      return
+    }
+    log("Will try to change server")
+    //03933884aaf1d6b108397e5efe5c86bcf2d8ca8d2f700eda99db9214fc2712b134@34.250.234.192:9735
+    try {
+      val nodeURI = NodeURI.parse(switchServer.get.uri)
+      kit.get.switchboard.tell(Connect.apply(nodeURI), Actor.noSender)
+      log("Asked to updated server")
+    } catch {
+      case e: Throwable => log(s"Error while trying to change server ${e}")
+    }
+  }
+}
+
+case class SwitchServer(uri: String)
 
 import akka.actor.UntypedActor
 
