@@ -497,5 +497,41 @@
     {"name":"publicSelectedKeys", "allowUnsafeAccess":true},
     {"name":"selectedKeys", "allowUnsafeAccess":true}
   ]
-}
+},
+  {
+    "name":"java.lang.Object",
+    "allDeclaredFields":true
+  },
+  {
+    "name":"fr.acinq.eclair.blockchain.fee.BitgoFeeProvider.BlockTarget",
+    "allDeclaredFields":true,
+    "allPublicFields":true,
+    "allPublicConstructors":true
+  },
+  {
+    "name":"fr.acinq.eclair.blockchain.fee.BitgoFeeProvider.BlockTarget$",
+    "allPublicMethods":true,
+    "fields":[{"name":"MODULE$"}]
+  },{
+    "name":"hellofx.EclairMessage",
+    "allDeclaredFields":true,
+    "allPublicFields":true,
+    "allPublicConstructors":true
+  },
+  {
+    "name":"hellofx.EclairMessage$",
+    "allPublicMethods":true,
+    "fields":[{"name":"MODULE$"}]
+  },
+  {
+    "name":"hellofx.SwitchServer",
+    "allDeclaredFields":true,
+    "allPublicFields":true,
+    "allPublicConstructors":true
+  },
+  {
+    "name":"hellofx.SwitchServer$",
+    "allPublicMethods":true,
+    "fields":[{"name":"MODULE$"}]
+  }
 ]

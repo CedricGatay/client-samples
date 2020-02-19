@@ -186,16 +186,17 @@ object InitEclair {
 
   def log(msg: String): Unit = {
     println(s"⚡ ${msg}")
-    if (false) {
-      val currentThread = CurrentIsolate.getCurrentThread
-      /* Call a C function directly. */
-      if (OS.getCurrent ne OS.WINDOWS) {
-        /*
-       * Calling C functions provided by the main executable from a shared library produced by
-       * the native-image is not yet supported on Windows.
-       */
-        CInterfaceTutorial.printingInC(currentThread, CTypeConversion.toCString(msg).get())
-      }
+    if (System.getProperty("NO_LOG") == "true") {
+      return
+    }
+    val currentThread = CurrentIsolate.getCurrentThread
+    /* Call a C function directly. */
+    if (OS.getCurrent ne OS.WINDOWS) {
+      /*
+     * Calling C functions provided by the main executable from a shared library produced by
+     * the native-image is not yet supported on Windows.
+     */
+      CInterfaceTutorial.printingInC(currentThread, CTypeConversion.toCString(msg).get())
     }
   }
 
