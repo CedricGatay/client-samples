@@ -32,4 +32,6 @@ public class CInterfaceTutorial {
     /* Import of a C function. */
     @CFunction("c_print")
     protected static native void printingInC(IsolateThread thread, CCharPointer cstr);
+    @CFunction("eclair_to_native")
+    protected static native void eclairToNative(IsolateThread thread, CCharPointer body);
 }

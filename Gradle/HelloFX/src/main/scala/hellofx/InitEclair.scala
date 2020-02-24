@@ -8,7 +8,7 @@ import akka.actor.{Actor, ActorSystem, Props}
 import com.oracle.svm.core.{OS, SubstrateUtil}
 import com.typesafe.config.{ConfigFactory, Optional}
 import fr.acinq.eclair.{Kit, Setup}
-import fr.acinq.eclair.blockchain.electrum.ElectrumEclairWallet
+import fr.acinq.eclair.blockchain.electrum.{ElectrumClient, ElectrumEclairWallet}
 import fr.acinq.eclair.channel.ChannelEvent
 import fr.acinq.eclair.db.BackupEvent
 import fr.acinq.eclair.io.Peer.Connect
@@ -17,8 +17,10 @@ import fr.acinq.eclair.payment.PaymentEvent
 import fr.acinq.eclair.router.SyncProgress
 import fr.acinq.eclair.wire.NodeAddress
 import hellofx.InitEclair.{kit, log}
+import hellofx.SampleCall.CMessageSendStruct
 import org.graalvm.nativeimage.CurrentIsolate
-import org.graalvm.nativeimage.c.`type`.CTypeConversion
+import org.graalvm.nativeimage.c.`type`.{CCharPointer, CTypeConversion}
+import org.graalvm.word.ComparableWord
 import scodec.bits.ByteVector
 
 import scala.collection.mutable.ArrayBuffer
@@ -77,13 +79,6 @@ object InitEclair {
          |eclair {
          |  chain = "testnet"
          |  local-features = "02" // data loss protect, and nothing else !
-         |  override-features = [
-         |    {
-         |      nodeid = ${nodeId},
-         |      global-features = "",
-         |      local-features = "808a" // initial_routing_sync + option_data_loss_protect + option_channel_range_queries + option_channel_range_queries_ex
-         |    }
-         |  ]
          |
          |  router.path-finding.max-route-length = 4
          |  router.channel-exclude-duration = 10 seconds // 60s default is too long
@@ -165,6 +160,9 @@ object InitEclair {
     system.eventStream.subscribe(nodeSupervisor, classOf[ChannelEvent])
     system.eventStream.subscribe(nodeSupervisor, classOf[SyncProgress])
     system.eventStream.subscribe(nodeSupervisor, classOf[PaymentEvent])
+    system.eventStream.subscribe(nodeSupervisor, classOf[ElectrumClient.ElectrumEvent])
+    system.eventStream.subscribe(nodeSupervisor, classOf[Peer.Connect])
+    system.eventStream.subscribe(nodeSupervisor, classOf[Peer.BadMessage])
 
     log("Bootstraping setup")
     val fKit = setup.bootstrap
@@ -208,6 +206,12 @@ object InitEclair {
     log("Message handling done")
   }
 
+  def messageToNative(msg: String): Unit = {
+    val currentThread = CurrentIsolate.getCurrentThread
+
+    CInterfaceTutorial.eclairToNative(currentThread, CTypeConversion.toCString(msg).get())
+  }
+
   implicit val formats = DefaultFormats
 
   def parseMessage(msg: String): Option[EclairMessage] = {
@@ -242,10 +246,11 @@ case class SwitchServer(uri: String)
 import akka.actor.UntypedActor
 
 class NodeSupervisor extends UntypedActor {
-  override def onReceive(message: Any): Unit = {
+  override def onReceive(event: Any): Unit = {
+    val message = s"🎫 Event received ${event}"
     println(message)
+    InitEclair.messageToNative(message)
   }
 }
-
 
 
